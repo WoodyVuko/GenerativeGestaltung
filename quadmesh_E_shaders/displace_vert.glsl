@@ -8,6 +8,8 @@ uniform mat4 texMatrix;
 
 // CUSTOM
 uniform float timePassed;
+uniform float pos;
+
 //float freq = 2*PI;
 
 /*
@@ -18,28 +20,6 @@ attribute vec4 color;
 
 varying vec4 vertColor;
 
-
-
-/*
- * Procedural multifractal evaluated at “point.” *
- * Parameters:
- * “H” determines the highest fractal dimension
- * “lacunarity” is gap between successive frequencies
- * “octaves” is the number of frequencies in the fBm
- * “offset” is the zero offset, which determines multifractality   - 0.8
- */
-float multifractal( vec4 point, float H, float lacunarity, int octaves, float offset )
-{
-    float value, Noise();
-    value = 1.0;
-    
-    for (int i=0; i < octaves; ++)
-    {
-        value *= (Noise(point) + offset) * pow (lacunarity, -H*i );
-        point *= lacunarity;
-    }
-return value;
-}
 
 
 // USER PARAMETERS
@@ -58,10 +38,8 @@ void main() {
   vec4 position = vertex;
 
   // TODO: uncomment next line, to override position value with a value calculated here in the shader
-  /*position.y = Y_OFFSET + SIN_X_AMPLITUDE + cos (position.x*0.005)
-    + SIN_Z_AMPLITUDE + cos (position.z*0.005*timePassed) * i; */
-    
-    position.y = multifractal(vertex, 1, 1,4, 0.8);
+  position.y = Y_OFFSET + SIN_X_AMPLITUDE + cos (position.x*0.005)
+    + SIN_Z_AMPLITUDE + cos (position.z*0.005*timePassed) * (i*float(100));
 
   
   // map world coordinate to screen coordinates
