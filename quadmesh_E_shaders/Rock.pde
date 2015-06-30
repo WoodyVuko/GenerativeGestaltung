@@ -8,10 +8,11 @@ class Rock
   PVector spin;
   boolean check;
   PVector pos;
-  float angle;
+  float angle, tmp;
   
   Rock(float x, float y, float z)
   {
+    tmp = 0;
     pos = new PVector( x, y, z);
     check = true;
     this.radius = random(50);
@@ -23,12 +24,17 @@ class Rock
     initSkin();
   }
   
-  void change(float radius, float rough, float speed, float detail)
+  void changeSpeed(float radius, float speed)
+  {
+    //tmp = radius;
+    this.speed  = speed;
+  }
+
+  void changeDetails(float radius, float rough, float detail)
   {
     this.radius = radius;
     this.rough  = rough;
     this.detail = detail;
-    this.speed  += speed;
     initPoints();
     initSkin();
   }
@@ -71,6 +77,7 @@ class Rock
 
   void render(float speed)
   {
+    this.speed += tmp;
     angle += speed;
     if(rebuild) { noLoop(); initPoints(); loop(); rebuild = false; }
     noStroke();

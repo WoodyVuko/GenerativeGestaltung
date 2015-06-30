@@ -222,22 +222,14 @@ public class ControlFrame extends PApplet {
       .setRange(1, 100)
       .setValue(5)
       .setPosition(10,70)
-      .setId(6)
-      .moveTo("Space");
-      
-      cp5.addSlider("Zoom: Asteroids")
-      .plugTo(parent, "zoomMeteor")
-      .setRange(0.1, 1.00)
-      .setValue(50)
-      .setPosition(10, 90)
-      .setId(6)
+      .setId(7)
       .moveTo("Space");
       
       cp5.addSlider("Detail: Asteroids")
       .plugTo(parent, "detailMeteor")
       .setRange(0.1,25.00)
       .setValue(5)
-      .setPosition(10, 110)
+      .setPosition(10, 90)
       .setId(6)
       .moveTo("Space");  
         
@@ -245,7 +237,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "roughMeteor")
       .setRange(0.1, 1.8)
       .setValue(0.9)
-      .setPosition(10,130)
+      .setPosition(10,110)
       .setId(6)
       .moveTo("Space");
       
@@ -253,7 +245,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "radiusMeteor")
       .setRange(1, 100)
       .setValue(50)
-      .setPosition(10,150)
+      .setPosition(10,130)
       .setId(6)
       .moveTo("Space");   
       

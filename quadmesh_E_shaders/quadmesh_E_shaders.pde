@@ -412,7 +412,16 @@ void controlEvent(ControlEvent theEvent) {
       // Empty
       break;
     case(6):
-    
+        for (int i = 0; i < meteorContrainer.length; i++) 
+        { 
+          meteorContrainer[i].changeDetails(radiusMeteor, roughMeteor, detailMeteor);                    
+        }    
+      break;
+    case(7):
+        for (int i = 0; i < meteorContrainer.length; i++) 
+        { 
+          meteorContrainer[i].changeSpeed(radiusMeteor, speedMeteor);
+         }
       break;
   }
 }
