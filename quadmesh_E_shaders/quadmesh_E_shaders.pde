@@ -29,7 +29,6 @@ float detailMeteor;
 float speedMeteor;
 float roughMeteor;
 float radiusMeteor;
-float sizeMeteor;
 
 /************************* Global parameters for "Clouds" *******************************/
 /***************************************************************************************/
@@ -143,11 +142,11 @@ void setup() {
   surpriseMe(numMeteor);
   
   // Meteor
-  meteorContrainer = new Rock[150];
-  for (int i = 0; i < 150; i++) 
+  meteorContrainer = new Rock[numMeteor];
+  for (int i = 0; i < numMeteor; i++) 
   {
     int tmp = int(dice(0, numMeteor));
-    meteorContrainer[i] = new Rock(random(-10, 1200), random(-400, 0)+ (-3500) , random(-1200),radiusMeteor, roughMeteor, speedMeteor, detailMeteor);
+    meteorContrainer[i] = new Rock(random(-10, 1200), random(-400, 0)+ (-3500) , random(-1200));
   }
   
   Sat1 = new SpaceObjects(random(-10, 100), -2900 , -1480, loadImage("sat.png"), 5, 10);
@@ -408,8 +407,12 @@ void controlEvent(ControlEvent theEvent) {
       {
         clouds[i] = new Cloud(random(-10, 1200), random(-400, 0)+ (-1600) , random(-1200));
       }
-      break; 
-
+      break;
+    case(5):
+      // Empty
+      break;
+    case(6):
     
+      break;
   }
 }

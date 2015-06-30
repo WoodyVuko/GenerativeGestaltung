@@ -10,20 +10,28 @@ class Rock
   PVector pos;
   float angle;
   
-  Rock(float x, float y, float z, float radius, float rough, float speed, float detail)
+  Rock(float x, float y, float z)
   {
     pos = new PVector( x, y, z);
     check = true;
-    this.radius = radius;
-    this.rough  = rough;
-    this.detail = detail;
-    this.speed  = speed;
-    speed  = speed;
+    this.radius = random(50);
+    this.rough  = random(1.8);
+    this.detail = random(25);
+    this.speed  = random(10);
     noiseSeed(frameCount);
     initPoints();
     initSkin();
   }
-
+  
+  void change(float radius, float rough, float speed, float detail)
+  {
+    this.radius = radius;
+    this.rough  = rough;
+    this.detail = detail;
+    this.speed  += speed;
+    initPoints();
+    initSkin();
+  }
   void initPoints()
   {
     int i = 0;
