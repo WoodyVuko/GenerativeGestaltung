@@ -253,7 +253,6 @@ public class ControlFrame extends PApplet {
       .setRange(0.00001,0.001)
       .setValue(0.0006)
       .setPosition(10,150)
-      .setId(7)
       .moveTo("Space");   
 
         
@@ -269,12 +268,47 @@ public class ControlFrame extends PApplet {
       .setRange(0.00001,0.001)
       .setValue(0.0006)
       .setPosition(10,190)
-      .setId(8)
+      .moveTo("Space"); 
+
+      cp5.addTextlabel("Settings: Stars")
+      .plugTo(parent, "descriptionStars")
+      .setText("Settings: Stars")
+      .setPosition(10,210)
+      .setColorValue(0xffffffFF)
+      .moveTo("Space");     
+      
+      cp5.addSlider("Amount: Stars")
+      .plugTo(parent, "numStars")
+      .setRange(0, 249)
+      .setValue(150)
+      .setPosition(10,230)
+      .setId(7)
+      .moveTo("Space");     
+      
+      cp5.addSlider("Radius: Stars")
+      .plugTo(parent, "radiusStars")
+      .setRange(0, 18)
+      .setValue(2)
+      .setPosition(10,250)
+      .moveTo("Space");     
+      
+      cp5.addSlider("Detail: Star")
+      .plugTo(parent, "detailStars")
+      .setRange(1, 10)
+      .setValue(3)
+      .setPosition(10,270)
+      .moveTo("Space");  
+      
+      cp5.addSlider("Speed: Star")
+      .plugTo(parent, "speedStars")
+      .setRange(0.01, 10)
+      .setValue(1)
+      .setPosition(10,290)
       .moveTo("Space");    
 }
   public void draw() {
     background(0);
-    text("key commands:\n(l)oad settings\n(s)ave settings",0,300);
+    text("key commands:\nLeft: Left Arrow\nRight: Right Arrow\nInside: Up Arrow\nBack: Down Arrow\nUp: Shift\nDown: Alt\nLoad settings: L\nSave settings: S",270,250);
   }
   
   

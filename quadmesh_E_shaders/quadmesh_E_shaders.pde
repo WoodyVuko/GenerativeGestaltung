@@ -21,7 +21,8 @@ int clearColor;
 /***************************************************************************************/
 SpaceObjects Sat1, Sat2, Moon, Sun;
 Rock[] meteorContrainer;
-int numMeteor = 150;
+SpaceObjects[] Stars;
+int numMeteor = 150, numStars, speedStars, detailStars, radiusStars;
 color[] colorContrainer;
 // Meteor Only
 float zoomMeteor, detailMeteor, speedMeteor, roughMeteor, radiusMeteor;
@@ -134,7 +135,14 @@ void setup() {
   {
     water[i] = new Bubble( random(MESH_WIDTH), random(height - 200), random(-1200, 1800), color(0, 10, 255));
   }
-
+  
+  // Stars
+  Stars = new SpaceObjects[numStars];
+  for (int i = 0; i < numStars; i++) 
+  {
+    Stars[i] = new SpaceObjects( random(-10, 1700), random(-2900, 0)+ (-2400) , -1300, color(255,255,255));
+  }
+  
   // Setting Color for Asteroids
   surpriseMe(numMeteor);
   
@@ -241,6 +249,21 @@ void draw() {
             water[i].reset(1200);
         }
     }
+    
+    // Stars
+    for (int i = 0; i < Stars.length; i++) 
+    {
+     if(i < (Stars.length / 2))
+       {
+        Stars[i].update(100, 1780, true);
+        Stars[i].renderStars(speedStars, detailStars, radiusStars);
+       }
+     else
+     {
+        Stars[i].update(1780, 100, false);
+        Stars[i].renderStars(speedStars, detailStars, radiusStars);
+     }
+    }   
     
     // Fishes
     for (int i = 0; i < fishContrainer.length; i++) 
@@ -376,11 +399,6 @@ void keyPressed() {
 }
 
 void controlEvent(ControlEvent theEvent) {
-  println("got a control event from controller with id "+theEvent.getController().getId());
-  
-  if (theEvent.isFrom(cp5.getController("n1"))) {
-    println("this event was triggered by Controller n1");
-  }
   
   switch(theEvent.getController().getId()) {
     case(1): // Lava Bubbles
@@ -423,5 +441,13 @@ void controlEvent(ControlEvent theEvent) {
           meteorContrainer[i].changeSpeed(radiusMeteor, speedMeteor);
          }
       break;
+    case(7):
+      // Stars
+  Stars = new SpaceObjects[numStars];
+  for (int i = 0; i < numStars; i++) 
+  {
+    Stars[i] = new SpaceObjects( random(-10, 1700), random(-2900, 0)+ (-2400) , -1300, color(255,255,255));
+  }
+  break;
   }
 }

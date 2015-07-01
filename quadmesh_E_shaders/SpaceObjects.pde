@@ -1,7 +1,7 @@
 class SpaceObjects
 {
     PVector pos;
-    float   speed, radius, angle;
+    float   speed, radius, angle, detail;
     boolean check, rotateCheck;
     int direction = 1; // left direction
     PImage img;
@@ -28,7 +28,15 @@ class SpaceObjects
       angle = 0;
       col = cl;
     }
-     
+    
+    SpaceObjects(float x, float y, float z, color cl)
+    {
+      check = true;
+      rotateCheck = true;
+      pos = new PVector( x, y, z);
+      col = cl;
+    }   
+    
      // -50 bis 1780 = Rechts nach Links
     void update(float left, float right, boolean way)
     { 
@@ -143,6 +151,30 @@ void renderSun(float speed)
   popMatrix();
 }
 
+    void renderStars(float speed, float detail, float radius)
+    { 
+      this.detail = detail;
+      this.radius = radius;
+        this.speed = speed;
+        stroke(255,255,255);
+        fill(255,255,255);
+        for (int i = 1; i < 3; i++) 
+        {
+            pushMatrix();    // Breite                        Höhe                  Tiefe(tiefer, näher)
+            translate (pos.x, pos.y, pos.z);
+            
+            sphereDetail(int(detail));
+            sphere(radius);
+            // Ringe statt 3D
+            //ellipse( object.x, object.y, i * radius * 2, i * radius * 2 );
+
+            popMatrix(); 
+            //println("Breite", object.x + random(1, -1500), "Höhe:", object.y  + random(0, -500), "Tiefe:", object.z - random(1200, -200));
+
+        }
+
+    }
+    
 //void renderMeteor(float x, float y, float z, float speed, float radius)
 void renderMeteor(float speed, float radius)
 {
