@@ -100,15 +100,13 @@ class Fish
 
     }
     
-    void reset()
+    void reset(float scale)
     {
-      /*
-        pos.x = random(200);
-        pos.y = random(200);
-        pos.z = random(200);
-        speed = random(5, 20);
+        pos.x = random(scale);
+        pos.y = random(height);
+        pos.z = random(-1200);
+        speed = random(00.1, 0.1);
         radius = random( 5, 10 );
-      */  
     }
      
 }

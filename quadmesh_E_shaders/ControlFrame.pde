@@ -124,12 +124,12 @@ public class ControlFrame extends PApplet {
       .setPosition(10,50)
       .moveTo("Mesh"); 
  // Testing!!!!!!!!!     
-      cp5.addSlider("Wall Right")
-      .plugTo(parent, "WL")
-      .setRange(-900, 900)
+      cp5.addSlider("Fish")
+      .plugTo(parent, "test")
+      .setRange(-1900, 1900)
       //.setNumberOfTickMarks(15)
       .setValue(100)
-      .setId(8)
+      .setId(9)
       .setPosition(10,70)
       .moveTo("Test"); 
       /*
