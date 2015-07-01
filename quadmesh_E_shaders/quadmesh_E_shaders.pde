@@ -24,11 +24,8 @@ Rock[] meteorContrainer;
 int numMeteor = 150;
 color[] colorContrainer;
 // Meteor Only
-float zoomMeteor;
-float detailMeteor;
-float speedMeteor;
-float roughMeteor;
-float radiusMeteor;
+float zoomMeteor, detailMeteor, speedMeteor, roughMeteor, radiusMeteor;
+float rotationMoon, rotationSun;
 
 /************************* Global parameters for "Clouds" *******************************/
 /***************************************************************************************/
@@ -282,8 +279,8 @@ void draw() {
   Sat2.update(1780, -50, false);
   Sat2.render(random(0.001,0.01));
   
-  Moon.renderMoon(random(0.0001,0.001));
-  Sun.renderSun(random(0.0001,0.001));
+  Moon.renderMoon(rotationMoon);
+  Sun.renderSun(rotationSun);
   
   // Texture with Walls
   Front.doImage(MESH_WIDTH/2 + 1500,  height/2 - 8000, -1500);

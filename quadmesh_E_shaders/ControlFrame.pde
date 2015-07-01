@@ -41,7 +41,7 @@ public class ControlFrame extends PApplet {
      .setColorLabel(color(255))
      .setColorActive(color(255,128,0));
     
-    cp5.addTab("Asteroids")
+    cp5.addTab("Space")
      .setColorBackground(color(160, 0, 70))
      .setColorLabel(color(255))
      .setColorActive(color(255,128,0));
@@ -240,12 +240,41 @@ public class ControlFrame extends PApplet {
       .setPosition(10,110)
       .setId(5)
       .moveTo("Space");   
+        
+      cp5.addTextlabel("Settings: Moon")
+      .plugTo(parent, "descriptionMoon")
+      .setText("Settings: Moon")
+      .setPosition(10,130)
+      .setColorValue(0xffffffFF)
+      .moveTo("Space");     
       
-       
+      cp5.addSlider("Rotation: Moon")
+      .plugTo(parent, "rotationMoon")
+      .setRange(0.00001,0.001)
+      .setValue(0.0006)
+      .setPosition(10,150)
+      .setId(7)
+      .moveTo("Space");   
+
+        
+      cp5.addTextlabel("Settings: Sun")
+      .plugTo(parent, "descriptionSun")
+      .setText("Settings: Sun")
+      .setPosition(10,170)
+      .setColorValue(0xffffffFF)
+      .moveTo("Space");     
+      
+      cp5.addSlider("Rotation: Sun")
+      .plugTo(parent, "rotationSun")
+      .setRange(0.00001,0.001)
+      .setValue(0.0006)
+      .setPosition(10,190)
+      .setId(8)
+      .moveTo("Space");    
 }
   public void draw() {
     background(0);
-    text("key commands:\n(l)oad settings\n(s)ave settings",0,200);
+    text("key commands:\n(l)oad settings\n(s)ave settings",0,300);
   }
   
   
