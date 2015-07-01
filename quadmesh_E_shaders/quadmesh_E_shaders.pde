@@ -1,6 +1,6 @@
 /*
 Name: Goran Vuković  Matrikel: 827827
-Aufgabe: Version 3 - Schwersdfesrewf
+Aufgabe: Version 3 - Schwer
 */
 import java.awt.Frame;
 import java.awt.BorderLayout;
