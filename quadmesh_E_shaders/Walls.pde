@@ -56,8 +56,8 @@ class Walls
     texture(img);
     vertex( -800, 8000,    0     , 0,   0);
     vertex( -800, 8000, mesh, 1920/2,   0);
-    vertex( -800,    0, mesh, 1920/2, 800);
-    vertex( -800,    0,    0,      0, 800);
+    vertex( -800, -100, mesh, 1920/2, 800);
+    vertex( -800, -100,    0,      0, 800);
     endShape(CLOSE);
    popMatrix(); 
   }

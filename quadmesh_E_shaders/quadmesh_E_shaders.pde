@@ -73,7 +73,18 @@ float Y_OFFSET = 000;
 float center = MESH_WIDTH / 2.0;
 int pos = 0;
 
-float WL, MESH;
+float WL, MESH = 600;
+
+float distanceLavaToSea = -100;
+float distance0 = -800;
+float distanceSeaToWater = -900;
+float distance1 = -1400;
+float distance2 = distance0 * 3;
+float distanceWaterToHorizon = -800;
+
+
+
+
 // Moving
 float reinRaus = (MESH_WIDTH/2);
 float linksRechts = MESH;
@@ -230,26 +241,32 @@ void draw() {
      }
     }
      
-    // Lava-Bubbles
-    for (int i = 0; i < lavaBubbles.length; i++) 
+
+/****************************** Lava Bubbles ******************************/
+/**************************************************************************/  
+  for (int i = 0; i < lavaBubbles.length; i++) 
     {
+      pushMatrix();
         lavaBubbles[i].update();
-        lavaBubbles[i].render(random(1, -1500), random(-100, -800), random(1200, -200), speedLava, detailLava);
+        lavaBubbles[i].render(MESH, random(distanceLavaToSea, distance0), random(1200, -200), speedLava, detailLava);
         if ( lavaBubbles[i].object.y < -50) 
         {
-            lavaBubbles[i].reset(1200);
+            lavaBubbles[i].reset(MESH*2);
         }
+        popMatrix();
     }
-    
-    // Water-Bubbles
+/******************************* Air Bubbles ******************************/
+/**************************************************************************/      
     for (int i = 0; i < water.length; i++) 
     {
+      pushMatrix();
         water[i].update();
-        water[i].render(random(1, -1000), -1000, random(1200, -200), speedWater, detailWater);
+        water[i].render(MESH, random(distanceSeaToWater, distance1), random( 1200, -200), speedWater, detailWater);
         if ( water[i].object.y < -50) 
         {
-            water[i].reset(1200);
+            water[i].reset(MESH*2);
         }
+      popMatrix();
     }
     
     // Stars
@@ -307,13 +324,22 @@ void draw() {
   Moon.renderMoon(rotationMoon);
   Sun.renderSun(rotationSun);
   
-  // Texture with Walls
-  Front.doImage(MESH_WIDTH/2 - 200,  height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
-  Front.doLeft(MESH + 800,  height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
-  Front.doRight(MESH_WIDTH - 200,  height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
-  
+  /************************** Texture with Walls ****************************/
+  /**************************************************************************/
   pushMatrix();
-  meshLava.doPosition(MESH, 0.0, 0.0);
+  Front.doImage(            MESH,  height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);  
+  popMatrix();
+  pushMatrix();
+  Front.doLeft(       MESH + 800,  height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
+  popMatrix();
+  pushMatrix();
+  Front.doRight(MESH_WIDTH - 200,  height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
+  popMatrix();
+  
+  /************************** Positioning Meshes ****************************/
+  /**************************************************************************/  
+  pushMatrix();
+  meshLava.doPosition(MESH, 100.0, 0.0);
   shape(pLava);
   popMatrix();
   

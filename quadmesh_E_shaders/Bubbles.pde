@@ -32,10 +32,7 @@ class Bubble
             sphere(radius);
             // Ringe statt 3D
             //ellipse( object.x, object.y, i * radius * 2, i * radius * 2 );
-
             popMatrix(); 
-            //println("Breite", object.x + random(1, -1500), "Höhe:", object.y  + random(0, -500), "Tiefe:", object.z - random(1200, -200));
-
         }
     }
      

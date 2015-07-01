@@ -24,7 +24,11 @@ public class ControlFrame extends PApplet {
     frameRate(25);
     cp5 = new ControlP5(this);
     
-    
+     cp5.addTab("Test")
+     .setColorBackground(color(66, 160, 100))
+     .setColorLabel(color(255))
+     .setColorActive(color(255,128,0));
+     
     // create tabs to arrange sliders, default is alwasy there, add another tab for sun related controls and one for terrain
     cp5.addTab("Mesh")
      .setColorBackground(color(0, 160, 100))
@@ -119,16 +123,16 @@ public class ControlFrame extends PApplet {
       .setId(8)
       .setPosition(10,50)
       .moveTo("Mesh"); 
-      
+ // Testing!!!!!!!!!     
       cp5.addSlider("Wall Right")
       .plugTo(parent, "WL")
-      .setRange(-300, 300)
+      .setRange(-900, 900)
       //.setNumberOfTickMarks(15)
       .setValue(100)
       .setId(8)
       .setPosition(10,70)
-      .moveTo("Mesh"); 
-      
+      .moveTo("Test"); 
+      /*
       cp5.addSlider("MESH (600)")
       .plugTo(parent, "MESH")
       .setRange(0, 1000)
@@ -136,7 +140,7 @@ public class ControlFrame extends PApplet {
       .setValue(600)
       //.setId(8)
       .setPosition(10,90)
-      .moveTo("Mesh"); 
+      .moveTo("Test"); */
       
 // Lava Bubbles
        cp5.addTextlabel("Settings: Lava")
