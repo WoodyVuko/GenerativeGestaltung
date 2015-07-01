@@ -5,7 +5,7 @@ class Mesh
   PShape mesh;
   PImage texture;
   float detail;
-  
+  PVector pos;
     Mesh(color o, color t, float detai, PImage tex)
     {
       one = o;
@@ -92,7 +92,7 @@ void displaceVertex (PShape shape, int index, float y) {
 
     }
     PShape createMeshNoise (float noise, float high) 
-    {
+    {    
       textureMode(NORMAL);
       mesh = createShape();
       // quad mesh means, each subsequent 4 vertices form a quad
@@ -168,11 +168,14 @@ void displaceVertex (PShape shape, int index, float y) {
         }
       }
     mesh.endShape();
-
     return mesh;
   }   
 
+void doPosition(float x, float y, float z)
+{      pos = new PVector(x, y, z);
 
+  translate(pos.x, pos.y, pos.z);
+}
 
     }
 

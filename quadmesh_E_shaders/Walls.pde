@@ -25,7 +25,7 @@ class Walls
     popMatrix();
   }
   
-    void doImage(float x, float y, float z)
+    void doImage(float x, float y, float z, float mesh)
   {
     textureMode(IMAGE);
     pushMatrix();
@@ -36,15 +36,15 @@ class Walls
     noStroke();  
     beginShape();
     texture(img);
-    vertex( 100, 8000, 0, 0,   0);
-    vertex( -2950, 8000, 0, 1920/2, 0);
-    vertex( -2950,  800, 0, 1920/2, 800);
-    vertex( 100,  800, 0, 0,   800);
+    vertex( 0, 8000, 0, 0,   0);
+    vertex( mesh, 8000, 0, 1920/2, 0);
+    vertex( mesh,  800, 0, 1920/2, 800);
+    vertex( 0,  800, 0, 0,   800);
     endShape(CLOSE);
    popMatrix(); 
   }
   
-  void doLeft(float x, float y, float z)
+  void doLeft(float x, float y, float z, float mesh)
   {
     textureMode(IMAGE);
     pushMatrix();
@@ -54,15 +54,15 @@ class Walls
     noStroke();  
     beginShape();
     texture(img);
-    vertex( -800, 8000, -100, 0,   0);
-    vertex( -800, 8000, 2950, 1920/2, 0);
-    vertex( -800,  800, 2950, 1920/2, 800);
-    vertex( -800,  800, -100, 0,   800);
+    vertex( -800, 8000,    0     , 0,   0);
+    vertex( -800, 8000, mesh, 1920/2,   0);
+    vertex( -800,    0, mesh, 1920/2, 800);
+    vertex( -800,    0,    0,      0, 800);
     endShape(CLOSE);
    popMatrix(); 
   }
     
-  void doRight(float x, float y, float z)
+  void doRight(float x, float y, float z, float mesh)
   {
     textureMode(IMAGE);
     pushMatrix();
@@ -72,10 +72,10 @@ class Walls
     noStroke();  
     beginShape();
     texture(img);
-    vertex( 800, 8000, -100, 0,   0);
-    vertex( 800, 8000, 2950, 1920/2, 0);
-    vertex( 800,  800, 2950, 1920/2, 800);
-    vertex( 800,  800, -100, 0,   800);
+    vertex( 800, 8000, 0, 0,   0);
+    vertex( 800, 8000, mesh, 1920/2, 0);
+    vertex( 800,  800, mesh, 1920/2, 800);
+    vertex( 800,  800, 0, 0,   800);
     endShape(CLOSE);
    popMatrix(); 
   }

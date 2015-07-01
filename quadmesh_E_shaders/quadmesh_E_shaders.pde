@@ -67,17 +67,19 @@ PShader displaceShader;
  
   
 // USER PARAMETERS
-int N = 400;      
-float MESH_WIDTH = 1800;    
+int N = 400 ;  
+float MESH_WIDTH;    
 float Y_OFFSET = 000;
 float center = MESH_WIDTH / 2.0;
 int pos = 0;
 
-
+float WL, MESH;
 // Moving
 float reinRaus = (MESH_WIDTH/2);
-float linksRechts = (width/2) - (MESH_WIDTH/2) + 100;
+float linksRechts = MESH;
 float hochRunter = height/2 + 300;
+
+
 
 int lod = 1;
 
@@ -306,23 +308,25 @@ void draw() {
   Sun.renderSun(rotationSun);
   
   // Texture with Walls
-  Front.doImage(MESH_WIDTH/2 + 1500,  height/2 - 8000, -1500);
-  Front.doLeft(MESH_WIDTH/2 + 0,  height/2 - 8000, -1500);
-  Front.doRight(MESH_WIDTH/2 + 0,  height/2 - 8000, -1500);
+  Front.doImage(MESH_WIDTH/2 - 200,  height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
+  Front.doLeft(MESH + 800,  height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
+  Front.doRight(MESH_WIDTH - 200,  height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
   
-  
-  shape(pLava);
-  
-    
   pushMatrix();
-  translate(0, height/2 - 700, 0);
+  meshLava.doPosition(MESH, 0.0, 0.0);
+  shape(pLava);
+  popMatrix();
+  
+  pushMatrix();
+  meshIsland.doPosition(MESH, height/2 - 700, 0);  
   shape(pIsland);
   popMatrix();
   
   pushMatrix();
-  translate(0, height/2 - 1400, 0);
+  meshWater.doPosition(MESH, height/2 - 1400, 0);
   shape(pWater);
   popMatrix();
+
   
     // enable displace shader
   shader(displaceShader);
@@ -362,10 +366,10 @@ void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
       reinRaus += 1 + Forward_and_Back;        
-      if(reinRaus >= 1500)
+      /*if(reinRaus >= 1500)
       {
         reinRaus = 1499;
-      }
+      }*/
     } else if (keyCode == DOWN) {
       reinRaus -= 1 + Forward_and_Back;
       /*if(reinRaus <= 500)
@@ -374,16 +378,16 @@ void keyPressed() {
       }*/
     } else if (keyCode == RIGHT) {
       linksRechts -= 1 + Left_and_Right;
-      if(linksRechts <= -949)
+      /*if(linksRechts <= -949)
       {
         linksRechts = -950;
-      }
+      }*/
     } else if (keyCode == LEFT) {
       linksRechts += 1 + Left_and_Right;
-      if(linksRechts >= 100)
+     /* if(linksRechts >= 100)
       {
         linksRechts = 100;
-      }
+      }*/
     } else if (keyCode == ALT) {
       hochRunter -= 1 + Up_and_Down;
       if(hochRunter <= 300)
@@ -443,11 +447,25 @@ void controlEvent(ControlEvent theEvent) {
       break;
     case(7):
       // Stars
-  Stars = new SpaceObjects[numStars];
-  for (int i = 0; i < numStars; i++) 
-  {
-    Stars[i] = new SpaceObjects( random(-10, 1700), random(-2900, 0)+ (-2400) , -1300, color(255,255,255));
-  }
-  break;
+      Stars = new SpaceObjects[numStars];
+      for (int i = 0; i < numStars; i++) 
+      {
+        Stars[i] = new SpaceObjects( random(-10, 1700), random(-2900, 0)+ (-2400) , -1300, color(255,255,255));
+      }
+      break;
+    case(8):
+  meshLava = new Mesh(color(255,0,0), color(0,255,0),N , loadImage("lava.png"));
+  pLava = meshLava.createMeshNoise(0.01, 0);
+  
+  meshIsland = new Mesh(color(0,0,0), color(0,0,255),N , loadImage("ocean.jpg"));
+  pIsland = meshIsland.createMeshNoise(0.02, 10300);
+  
+  meshWater = new Mesh(color(68,53,255), color(0,0,255),N , loadImage("water.jpg"));
+  pWater = meshWater.createMesh();
+      break;
+      
+   case(9):
+
+      break;
   }
 }

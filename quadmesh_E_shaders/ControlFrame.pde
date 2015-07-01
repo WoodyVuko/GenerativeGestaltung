@@ -26,8 +26,13 @@ public class ControlFrame extends PApplet {
     
     
     // create tabs to arrange sliders, default is alwasy there, add another tab for sun related controls and one for terrain
-    cp5.addTab("Lava")
+    cp5.addTab("Mesh")
      .setColorBackground(color(0, 160, 100))
+     .setColorLabel(color(255))
+     .setColorActive(color(255,128,0));
+   
+    cp5.addTab("Lava")
+     .setColorBackground(color(160, 0, 70))
      .setColorLabel(color(255))
      .setColorActive(color(255,128,0));
 
@@ -96,6 +101,43 @@ public class ControlFrame extends PApplet {
       .setValue(150)
       .setPosition(10,130)
       .moveTo("default");      
+
+// Mesh
+
+       cp5.addTextlabel("Settings: Mesh")
+      .plugTo(parent, "descriptionMesh")
+      .setText("Settings: Mesh")
+      .setPosition(10,30)
+      .setColorValue(0xffffffFF)
+      .moveTo("Mesh");
+      
+      cp5.addSlider("Size: Mesh")
+      .plugTo(parent, "MESH_WIDTH")
+      .setRange(1200, 3600)
+      .setNumberOfTickMarks(15)
+      .setValue(1200)
+      .setId(8)
+      .setPosition(10,50)
+      .moveTo("Mesh"); 
+      
+      cp5.addSlider("Wall Right")
+      .plugTo(parent, "WL")
+      .setRange(-300, 300)
+      //.setNumberOfTickMarks(15)
+      .setValue(100)
+      .setId(8)
+      .setPosition(10,70)
+      .moveTo("Mesh"); 
+      
+      cp5.addSlider("MESH (600)")
+      .plugTo(parent, "MESH")
+      .setRange(0, 1000)
+      //.setNumberOfTickMarks(15)
+      .setValue(600)
+      //.setId(8)
+      .setPosition(10,90)
+      .moveTo("Mesh"); 
+      
 // Lava Bubbles
        cp5.addTextlabel("Settings: Lava")
       .plugTo(parent, "descriptionLava")
@@ -109,6 +151,7 @@ public class ControlFrame extends PApplet {
       .setRange(1, 150)
       .setValue(50)
       .setPosition(10,50)
+      .setNumberOfTickMarks(10)
       .setId(1)
       .moveTo("Lava");
 
@@ -116,6 +159,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "speedLava")
       .setRange(1, 35)
       .setValue(5)
+      .setNumberOfTickMarks(10)
       .setPosition(10,70)
       .moveTo("Lava");
       
@@ -123,6 +167,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "detailLava")
       .setRange(1, 10)
       .setValue(3)
+      .setNumberOfTickMarks(10)
       .setPosition(10,90)
       .moveTo("Lava");
         
@@ -139,6 +184,7 @@ public class ControlFrame extends PApplet {
       .setRange(1, 250)
       .setValue(50)
       .setPosition(10,50)
+      .setNumberOfTickMarks(10)
       .setId(2)
       .moveTo("Water");
       
@@ -146,6 +192,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "speedFishes")
       .setRange(1, 35)
       .setValue(5)
+      .setNumberOfTickMarks(10)
       .setPosition(10,70)
       .moveTo("Water");
       
@@ -160,6 +207,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "numWater")
       .setRange(1, 150)
       .setValue(50)
+      .setNumberOfTickMarks(10)
       .setPosition(10,110)
       .setId(3)
       .moveTo("Water");
@@ -168,12 +216,14 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "speedWater")
       .setRange(1, 35)
       .setValue(5)
+      .setNumberOfTickMarks(10)
       .setPosition(10,130)
       .moveTo("Water");  
         
       cp5.addSlider("Detail: Air Bubble")
       .plugTo(parent, "detailWater")
       .setRange(1, 10)
+      .setNumberOfTickMarks(10)
       .setValue(3)
       .setPosition(10,150)
       .moveTo("Water");  
@@ -190,6 +240,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "numClouds")
       .setRange(0, 49)
       .setValue(10)
+      .setNumberOfTickMarks(10)
       .setPosition(10,50)
       .setId(4)
       .moveTo("Clouds");
@@ -198,6 +249,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "speedClouds")
       .setRange(1, 35)
       .setValue(5)
+      .setNumberOfTickMarks(10)
       .setPosition(10,70)
       .moveTo("Clouds");
 
@@ -214,6 +266,7 @@ public class ControlFrame extends PApplet {
       .setRange(1, 100)
       .setValue(5)
       .setPosition(10,50)
+      .setNumberOfTickMarks(10)
       .setId(6)
       .moveTo("Space");
       
@@ -222,6 +275,7 @@ public class ControlFrame extends PApplet {
       .setRange(0.1,25.00)
       .setValue(5)
       .setPosition(10, 70)
+      .setNumberOfTickMarks(10)
       .setId(5)
       .moveTo("Space");  
         
@@ -229,6 +283,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "roughMeteor")
       .setRange(0.1, 1.8)
       .setValue(0.9)
+      .setNumberOfTickMarks(10)
       .setPosition(10,90)
       .setId(5)
       .moveTo("Space");
@@ -238,6 +293,7 @@ public class ControlFrame extends PApplet {
       .setRange(1, 50)
       .setValue(50)
       .setPosition(10,110)
+      .setNumberOfTickMarks(10)
       .setId(5)
       .moveTo("Space");   
         
@@ -252,6 +308,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "rotationMoon")
       .setRange(0.00001,0.001)
       .setValue(0.0006)
+      .setNumberOfTickMarks(10)
       .setPosition(10,150)
       .moveTo("Space");   
 
@@ -267,6 +324,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "rotationSun")
       .setRange(0.00001,0.001)
       .setValue(0.0006)
+      .setNumberOfTickMarks(10)
       .setPosition(10,190)
       .moveTo("Space"); 
 
@@ -282,6 +340,7 @@ public class ControlFrame extends PApplet {
       .setRange(0, 249)
       .setValue(150)
       .setPosition(10,230)
+      .setNumberOfTickMarks(10)
       .setId(7)
       .moveTo("Space");     
       
@@ -289,6 +348,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "radiusStars")
       .setRange(0, 18)
       .setValue(2)
+      .setNumberOfTickMarks(10)
       .setPosition(10,250)
       .moveTo("Space");     
       
@@ -296,6 +356,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "detailStars")
       .setRange(1, 10)
       .setValue(3)
+      .setNumberOfTickMarks(10)
       .setPosition(10,270)
       .moveTo("Space");  
       
@@ -303,6 +364,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "speedStars")
       .setRange(0.01, 10)
       .setValue(1)
+      .setNumberOfTickMarks(10)
       .setPosition(10,290)
       .moveTo("Space");    
 }
