@@ -209,44 +209,36 @@ public class ControlFrame extends PApplet {
       .setColorValue(0xffffffFF)
       .moveTo("Space");
       
-      cp5.addSlider("Amount: Asteroids")
-      .plugTo(parent, "numMeteor")
-      .setRange(1, 150)
-      .setValue(20)
-      .setPosition(10, 50)
-      .setId(5)
-      .moveTo("Space");
-      
       cp5.addSlider("Speed: Asteroids")
       .plugTo(parent, "speedMeteor")
       .setRange(1, 100)
       .setValue(5)
-      .setPosition(10,70)
-      .setId(7)
+      .setPosition(10,50)
+      .setId(6)
       .moveTo("Space");
       
       cp5.addSlider("Detail: Asteroids")
       .plugTo(parent, "detailMeteor")
       .setRange(0.1,25.00)
       .setValue(5)
-      .setPosition(10, 90)
-      .setId(6)
+      .setPosition(10, 70)
+      .setId(5)
       .moveTo("Space");  
         
       cp5.addSlider("Rough: Asteroids")
       .plugTo(parent, "roughMeteor")
       .setRange(0.1, 1.8)
       .setValue(0.9)
-      .setPosition(10,110)
-      .setId(6)
+      .setPosition(10,90)
+      .setId(5)
       .moveTo("Space");
       
       cp5.addSlider("Radius: Asteroids")
       .plugTo(parent, "radiusMeteor")
-      .setRange(1, 100)
+      .setRange(1, 50)
       .setValue(50)
-      .setPosition(10,130)
-      .setId(6)
+      .setPosition(10,110)
+      .setId(5)
       .moveTo("Space");   
       
        

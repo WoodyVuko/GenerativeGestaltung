@@ -109,6 +109,40 @@ void render(float speed)
   popMatrix();
 }
 
+void renderMoon(float speed)
+{
+  angle += speed;
+  pushMatrix();
+  translate(pos.x, pos.y, pos.z);
+  noStroke();
+  rotate(angle); 
+  beginShape();
+  texture(img);
+  vertex(-100, -100, 0, 0, 0);
+  vertex(400, -100, 0, img.width, 0);
+  vertex(400, 400, 0, img.width, img.height);
+  vertex(-100, 400, 0, 0, img.height);
+  endShape();
+  popMatrix();
+}
+
+void renderSun(float speed)
+{
+  angle += speed;
+  pushMatrix();
+  translate(pos.x, pos.y, pos.z);
+  noStroke();
+  rotate(angle); 
+  beginShape();
+  texture(img);
+  vertex(-100, -100, 0, 0, 0);
+  vertex(900, -100, 0, img.width, 0);
+  vertex(900, 900, 0, img.width, img.height);
+  vertex(-100, 900, 0, 0, img.height);
+  endShape();
+  popMatrix();
+}
+
 //void renderMeteor(float x, float y, float z, float speed, float radius)
 void renderMeteor(float speed, float radius)
 {

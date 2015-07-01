@@ -19,9 +19,9 @@ int clearColor;
 
 /************************* Global parameters for "Space" *******************************/
 /***************************************************************************************/
-SpaceObjects Sat1, Sat2;
+SpaceObjects Sat1, Sat2, Moon, Sun;
 Rock[] meteorContrainer;
-int numMeteor;
+int numMeteor = 150;
 color[] colorContrainer;
 // Meteor Only
 float zoomMeteor;
@@ -145,12 +145,15 @@ void setup() {
   meteorContrainer = new Rock[numMeteor];
   for (int i = 0; i < numMeteor; i++) 
   {
-    int tmp = int(dice(0, numMeteor));
-    meteorContrainer[i] = new Rock(random(-10, 1200), random(-400, 0)+ (-3500) , random(-1200));
+    int tmp = int(dice(0, numMeteor));                       // -400
+    meteorContrainer[i] = new Rock(random(-10, 1200), random(-2900, 0)+ (-3500) , random(-1200));
   }
   
   Sat1 = new SpaceObjects(random(-10, 100), -2900 , -1480, loadImage("sat.png"), 5, 10);
   Sat2 = new SpaceObjects(random(-10, 600), -3200 , -1480, loadImage("sat2.png"), 2, 5);
+  Moon = new SpaceObjects(900, -4500 , -1480, loadImage("moon.jpg"), 0, 0);
+  Sun = new SpaceObjects(700, -5900 , -1480, loadImage("sun.jpg"), 0, 0);
+
   /*
   Meteor = new SpaceObjects();  
   */  
@@ -278,6 +281,9 @@ void draw() {
   Sat1.render(random(0.005,0.05));
   Sat2.update(1780, -50, false);
   Sat2.render(random(0.001,0.01));
+  
+  Moon.renderMoon(random(0.0001,0.001));
+  Sun.renderSun(random(0.0001,0.001));
   
   // Texture with Walls
   Front.doImage(MESH_WIDTH/2 + 1500,  height/2 - 8000, -1500);
@@ -409,15 +415,12 @@ void controlEvent(ControlEvent theEvent) {
       }
       break;
     case(5):
-      // Empty
-      break;
-    case(6):
         for (int i = 0; i < meteorContrainer.length; i++) 
         { 
           meteorContrainer[i].changeDetails(radiusMeteor, roughMeteor, detailMeteor);                    
         }    
       break;
-    case(7):
+    case(6):
         for (int i = 0; i < meteorContrainer.length; i++) 
         { 
           meteorContrainer[i].changeSpeed(radiusMeteor, speedMeteor);
