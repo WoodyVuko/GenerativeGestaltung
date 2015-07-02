@@ -128,7 +128,7 @@ public class ControlFrame extends PApplet {
       .plugTo(parent, "test")
       .setRange(-1900, 1900)
       //.setNumberOfTickMarks(15)
-      .setValue(100)
+      .setValue(0)
       .setId(9)
       .setPosition(10,70)
       .moveTo("Test"); 

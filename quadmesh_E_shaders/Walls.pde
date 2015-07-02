@@ -9,11 +9,11 @@ class Walls
 
   Walls(float b, float h, float t, color c)
   {
-     size = new PVector( b, h, t); 
      farbe = c;
-     img = loadImage("black.png");
-
-  }
+     size = new PVector(b, h, t);
+     img = loadImage("testA.png");     
+     //img = loadImage("black.png");     
+}
   
   void render(float x, float y, float z)
   {    
@@ -37,11 +37,11 @@ class Walls
     beginShape();
     texture(img);
     vertex( 0, 8000, 0, 0,   0);
-    vertex( mesh, 8000, 0, 1920/2, 0);
-    vertex( mesh,  800, 0, 1920/2, 800);
-    vertex( 0,  800, 0, 0,   800);
+    vertex( mesh, 8000, 0, 800, 0);
+    vertex( mesh,  800, 0, 800, 8000);
+    vertex( 0,  800, 0, 0,   8000);
     endShape(CLOSE);
-   popMatrix(); 
+    popMatrix(); 
   }
   
   void doLeft(float x, float y, float z, float mesh)
@@ -55,11 +55,11 @@ class Walls
     beginShape();
     texture(img);
     vertex( -800, 8000,    0     , 0,   0);
-    vertex( -800, 8000, mesh, 1920/2,   0);
-    vertex( -800, -100, mesh, 1920/2, 800);
-    vertex( -800, -100,    0,      0, 800);
+    vertex( -800, 8000, mesh, 800,   0);
+    vertex( -800, 800, mesh, 800, 8000);
+    vertex( -800, 800,    0,      0, 8000);
     endShape(CLOSE);
-   popMatrix(); 
+   popMatrix();  
   }
     
   void doRight(float x, float y, float z, float mesh)
@@ -73,9 +73,9 @@ class Walls
     beginShape();
     texture(img);
     vertex( 800, 8000, 0, 0,   0);
-    vertex( 800, 8000, mesh, 1920/2, 0);
-    vertex( 800,  800, mesh, 1920/2, 800);
-    vertex( 800,  800, 0, 0,   800);
+    vertex( 800, 8000, mesh, 800, 0);
+    vertex( 800,  800, mesh, 800, 8000);
+    vertex( 800,  800, 0, 0,   8000);
     endShape(CLOSE);
    popMatrix(); 
   }

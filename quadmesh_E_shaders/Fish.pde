@@ -15,12 +15,21 @@ class Fish
       col = new PVector( random(255), random(255) , random(255));
       //speed = random(1, 5);
       radius = random( 5, 10 );
+      println(x);
     }
+     
+     void xxx(float x)
+     {
+       println("X: ", pos.x);
+       pos.x = x;
+       pushMatrix();
+       translate(x, pos.y, pos.z);
+        popMatrix();
+     }
      
      // -50 bis 1780 = Rechts nach Links
     void update(float left, float right, boolean way, int dir)
     { 
-      direction = dir;
       if(way == true)
       {
         if(check == true)
@@ -81,9 +90,11 @@ class Fish
       }
     }
 
+
      
     void render(float speed)
-    { 
+    {       
+
       this.speed = +speed;
       noStroke();
       pushMatrix();//  -800

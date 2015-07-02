@@ -89,7 +89,7 @@ float distanceWaterToHorizon = -800;
 
 // Moving
 float reinRaus = (MESH_WIDTH/2);
-float linksRechts = MESH;
+float linksRechts = -MESH - (100);
 float hochRunter = height/2 + 300;
 
 
@@ -122,21 +122,23 @@ void setup() {
 
   // Fishes  
   fishContrainer = new Fish[numFishes];
+  // center mesh to camera
+  translate (linksRechts, hochRunter, reinRaus);
   for (int i = 0; i < numFishes; i++) 
-  {
-    pushMatrix();
-    fishContrainer[i] = new Fish(random(MESH_WIDTH), 0, random(0  - 1200));  //random(-260, 460) 
-    popMatrix();
+  {                              // -MESH/2
+    fishContrainer[i] = new Fish(random(-MESH/2, (MESH_WIDTH-(300))), 0, random(0  - 1200));
   }
+ // popMatrix();
   // init time measurement
   lastTime = millis() / 1000.0;
   Front = new Walls(1600, 6000, 40, color(23, 51, 112));
 
-  // Clouds
+  /************************** Cloud Constructor *****************************/
+  /**************************************************************************/
   clouds = new Cloud[numClouds];
   for (int i = 0; i < numClouds; i++) 
   {
-    clouds[i] = new Cloud(random(-10, 1200), random(-400, 0)+ (-1600), random(-1200));
+    clouds[i] = new Cloud(random(MESH_WIDTH - 400), random(-400, 0)+ (-1600), random(-1200));
   }
 
   // Lava Bubbles
@@ -230,16 +232,29 @@ void draw() {
       meshWater.displaceQuadY(pWater, x, z, sin(0.9) + 0.3);
     }
   }
-
-  // Clouds
+  
+  /************************** Texture with Walls ****************************/
+  /**************************************************************************/
+  pushMatrix();
+  Front.doImage(            MESH, height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);  
+  popMatrix();
+  pushMatrix();
+  Front.doLeft(       MESH + 800, height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
+  popMatrix();
+  pushMatrix();
+  Front.doRight(MESH_WIDTH - 200, height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
+  popMatrix();
+ 
+  /****************************** Clouds ************************************/
+  /**************************************************************************/  
   for (int i = 0; i < clouds.length; i++) {
     if (i < (clouds.length / 2))
     {
-      clouds[i].update(-10, 980, true);
+      clouds[i].update(300, (MESH_WIDTH/2) + 100, true);
       clouds[i].render(speedClouds);
     } else
     {
-      clouds[i].update(980, -10, false);
+      clouds[i].update((MESH_WIDTH/2) + 100, 300, false);
       clouds[i].render(speedClouds);
     }
   }
@@ -291,21 +306,20 @@ void draw() {
   /**************************************************************************/
   for (int i = 0; i < fishContrainer.length; i++) 
   {    
-    pushMatrix();
     if (i < (fishContrainer.length / 2))
     {
-      fishContrainer[i].update(100, 980, true, 1);
+      fishContrainer[i].update(-(MESH_WIDTH/4) + MESH_WIDTH/2, MESH_WIDTH-(300), true, 1);
       fishContrainer[i].render(speedFishes);
     } else
     {
-      fishContrainer[i].update(980, 100, false, -1);
+      fishContrainer[i].update(MESH_WIDTH-(300), -(MESH_WIDTH/4) + MESH_WIDTH/2, false, -1);
       fishContrainer[i].render(speedFishes);
     }
     if ( fishContrainer[i].pos.y < -50) 
     {
-      fishContrainer[i].reset(MESH);
+      //fishContrainer[i].reset(MESH);
     }
-    popMatrix();
+
   }
 
   // Meteor
@@ -330,18 +344,6 @@ void draw() {
 
   Moon.renderMoon(rotationMoon);
   Sun.renderSun(rotationSun);
-
-  /************************** Texture with Walls ****************************/
-  /**************************************************************************/
-  pushMatrix();
-  Front.doImage(            MESH, height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);  
-  popMatrix();
-  pushMatrix();
-  Front.doLeft(       MESH + 800, height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
-  popMatrix();
-  pushMatrix();
-  Front.doRight(MESH_WIDTH - 200, height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
-  popMatrix();
 
   /************************** Positioning Meshes ****************************/
   /**************************************************************************/
@@ -500,7 +502,7 @@ void controlEvent(ControlEvent theEvent) {
   fishContrainer = new Fish[numFishes];
   for (int i = 0; i < numFishes; i++) 
   {
-    fishContrainer[i] = new Fish(random(MESH_WIDTH), test, random(0  - 1200));
+    fishContrainer[i] = new Fish(random(-MESH/2, (MESH_WIDTH-(300))), 0, random(0  - 1200));
   }
     break;
   }
