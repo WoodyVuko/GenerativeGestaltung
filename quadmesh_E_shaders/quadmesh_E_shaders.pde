@@ -506,3 +506,18 @@ void controlEvent(ControlEvent theEvent) {
   }
 }
 
+
+
+/************** Funktion für Sprite als BG (Laggy) ****/
+/* Funktionierende Funktion für BG als Sprite! ********
+/* Einfach render für Hintrgrundwand ersetzen.. ******
+  
+  PVector Mache Wasser()
+  {
+      PImage fish = loadImage("water.jpg");
+      pushMatrix();
+      translate(x,y,z);
+      image(fish,0,0,mesh,8000);
+      popMatrix();
+  }
+  */
