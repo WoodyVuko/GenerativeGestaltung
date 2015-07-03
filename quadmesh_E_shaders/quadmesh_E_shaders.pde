@@ -79,11 +79,10 @@ float distanceLavaToSea = -100;
 float distance0 = -800;
 float distanceSeaToWater = -900;
 float distance1 = -1400;
-
-
-float distance2 = distance0 * 3;
 float distanceWaterToHorizon = -800;
-
+float distance2 = distance0 * 3;
+float ditanceFishToLand = 400;
+float distance3 = -200;
 
 
 
@@ -122,13 +121,16 @@ void setup() {
   meshWater = new Mesh(color(68, 53, 255), color(0, 0, 255), N, loadImage("water.jpg"));
   pWater = meshWater.createMesh();
 
-  // Fishes  
-  fishContrainer = new Fish[numFishes];
-  // center mesh to camera
+  /******************* Center to Mesh ***************************************/
+  /**************************************************************************/
   translate (linksRechts, hochRunter, reinRaus);
+
+  /******************* Constructor Lava Bubbles *****************************/
+  /**************************************************************************/
+  fishContrainer = new Fish[numFishes];
   for (int i = 0; i < numFishes; i++) 
   {                              // -MESH/2
-    fishContrainer[i] = new Fish(random(-MESH/2, (MESH_WIDTH-(300))), 0, random(0  - 1200));
+    fishContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance3, ditanceFishToLand), random(0  - 1200));
   }
   // popMatrix();
   // init time measurement
@@ -159,11 +161,12 @@ void setup() {
     water[i] = new Bubble( MESH, random(distanceSeaToWater, distance1), random( 1200, -200), color(0, 10, 255));
   }
 
-  // Stars
+  /******************** Constructor Stars ***********************************/
+  /**************************************************************************/
   Stars = new SpaceObjects[numStars];
   for (int i = 0; i < numStars; i++) 
   {
-    Stars[i] = new SpaceObjects( random(200, MESH_WIDTH), random(-2900, 0)+ (-2400), -1200, color(255, 255, 255));
+    Stars[i] = new SpaceObjects( random(MESH, MESH_WIDTH + MESH), random(-2900, 0)+ (-2400), -1200, color(255, 255, 255));
   }
 
   /************************ Constructor Meteors *****************************/
@@ -175,14 +178,16 @@ void setup() {
     meteorContrainer[i] = new Rock(random(400, MESH_WIDTH), random(-2900, 0)+ (-3500), random(-1200));
   }
 
-  Sat1 = new SpaceObjects(random(-10, 100), -2900, -1480, loadImage("sat.png"), 5, 10);
-  Sat2 = new SpaceObjects(random(-10, 600), -3200, -1480, loadImage("sat2.png"), 2, 5);
-  Moon = new SpaceObjects(900, -4500, -1480, loadImage("moon.jpg"), 0, 0);
-  Sun = new SpaceObjects(700, -5900, -1480, loadImage("sun.jpg"), 0, 0);
+  /************************ Constructor Sat's *****************************/
+  /**************************************************************************/
+  Sat1 = new SpaceObjects(random(400, MESH_WIDTH + MESH), -3500, -1200, loadImage("sat.png"), 5, 10);
+  Sat2 = new SpaceObjects(random(400, MESH_WIDTH + MESH), -3200, -1200, loadImage("sat2.png"), 2, 5);
+    
+  /************************ Constructor Planets *****************************/
+  /**************************************************************************/
+  Moon = new SpaceObjects(MESH_WIDTH/2 + MESH, -4500, -1200, loadImage("moon.jpg"), 0, 0);
+  Sun = new SpaceObjects(MESH_WIDTH/2 + MESH, -5600, -1200, loadImage("sun.jpg"), 0, 0);
 
-  /*
-  Meteor = new SpaceObjects();  
-   */
   // init time measurement
   lastTime = millis() / 1000.0;
 }
@@ -214,12 +219,12 @@ void draw() {
   // center mesh to camera
   translate (linksRechts, hochRunter, reinRaus);
 
-  // move the middle quad in y-direction  
+  /************************** Noise  Water **********************************/
+  /**************************************************************************/
   float wx = 0.01;
   float wz = 10;
   float t = frameCount*0.01;
   int count = 0;
-
 
   for (int x=0; x<N; x++) 
   {
@@ -246,7 +251,6 @@ void draw() {
   pushMatrix();
   Front.doRight(MESH_WIDTH - 200, height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
   popMatrix();
-  /**************************** END ****************************************/
 
   /****************************** Clouds ************************************/
   /**************************************************************************/
@@ -261,8 +265,6 @@ void draw() {
       clouds[i].render(speedClouds);
     }
   }
-  /**************************** END ****************************************/
-
 
   /****************************** Lava Bubbles ******************************/
   /**************************************************************************/
@@ -277,7 +279,6 @@ void draw() {
     }
     popMatrix();
   }
-    /**************************** END ****************************************/
 
   /******************************* Air Bubbles ******************************/
   /**************************************************************************/
@@ -292,7 +293,6 @@ void draw() {
     }
     popMatrix();
   }
-  /**************************** END ****************************************/
 
   /********************************* Stars ***********************************/
   /**************************************************************************/
@@ -308,7 +308,6 @@ void draw() {
       Stars[i].renderStars(speedStars, detailStars, radiusStars);
     }
   }   
-  /**************************** END ****************************************/
 
   /********************************* Fish ***********************************/
   /***********************************************************************NOT DONE***/
@@ -316,16 +315,15 @@ void draw() {
   {    
     if (i < (fishContrainer.length / 2))
     {
-      fishContrainer[i].update(-(MESH_WIDTH/4) + MESH_WIDTH/2, MESH_WIDTH-(300), true, 1);
+      fishContrainer[i].update(MESH/2 + 50, MESH_WIDTH/2 + 250, true, 1);
       fishContrainer[i].render(speedFishes);
     } else
     {
-      fishContrainer[i].update(MESH_WIDTH-(300), -(MESH_WIDTH/4) + MESH_WIDTH/2, false, -1);
+      fishContrainer[i].update(MESH_WIDTH/2 + 250, MESH/2 + 50, false, -1);
       fishContrainer[i].render(speedFishes);
     }
   }
-  /**************************** END ****************************************/
-
+  
   /********************************** Meteors *******************************/
   /**************************************************************************/
   for (int i = 0; i < meteorContrainer.length; i++) 
@@ -340,14 +338,16 @@ void draw() {
       meteorContrainer[i].render(random(0.001, 0.01));
     }
   }  
-  /*************************** END ****************************************/
-
-  // Sat 1
-  Sat1.update(-50, 1780, true);
+  
+  /************************** Satellites ************************************/
+  /**************************************************************************/
+  Sat1.update(MESH, MESH_WIDTH + MESH, true);
   Sat1.render(random(0.005, 0.05));
-  Sat2.update(1780, -50, false);
+  Sat2.update(MESH, MESH_WIDTH + MESH, false);
   Sat2.render(random(0.001, 0.01));
 
+  /************************** Planets ***************************************/
+  /**************************************************************************/
   Moon.renderMoon(rotationMoon);
   Sun.renderSun(rotationSun);
 
