@@ -27,6 +27,71 @@ class Fish
         popMatrix();
      }
      
+      // -50 bis 1780 = Rechts nach Links
+    void update(float left, float right, boolean way, int dir)
+    { 
+      direction = dir;
+      if(way == true)
+      {
+        if(check == true)
+        {
+          if(pos.x >= left)
+          {
+            pos.x -= speed;
+
+          //pos.y -= sin(20);
+          }
+          else
+          {
+            check = false;
+            pos.x = right; 
+          }
+        }
+        else
+        {
+          if(pos.x <= right + 1)
+          {
+            pos.x += speed;
+          }
+          else
+          {
+            check = true;
+            direction = 1;
+          }
+        }
+      }
+      else
+      {
+        if(check == true)
+        {
+          if(pos.x <= left)
+          {
+            pos.x += speed;
+
+          //pos.y -= sin(20);
+          }
+          else
+          {
+            check = false;
+            pos.x = right;  
+          }
+        }
+        else
+        {
+          if(pos.x >= right + 1)
+          {
+            pos.x -= speed;
+          }
+          else
+          {
+            check = true;
+            direction = 1; 
+          }        
+        }
+      }
+    }
+    
+     /*
      // -50 bis 1780 = Rechts nach Links
     void update(float left, float right, boolean way, int dir)
     { 
@@ -58,7 +123,7 @@ class Fish
           else
           {
             check = true;
-            direction = -1;
+            direction = 1;
           }
         }
       }
@@ -92,7 +157,7 @@ class Fish
         }
       }
     }
-
+*/
 
      
     void render(float speed)
