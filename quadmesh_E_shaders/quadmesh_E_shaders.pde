@@ -22,7 +22,7 @@ int clearColor;
 SpaceObjects Sat1, Sat2, Moon, Sun;
 Rock[] meteorContrainer;
 SpaceObjects[] Stars;
-int numMeteor = 150, numStars, speedStars, detailStars, radiusStars;
+int numMeteor = 15, numStars, speedStars, detailStars, radiusStars;
 color[] colorContrainer;
 // Meteor Only
 float zoomMeteor, detailMeteor, speedMeteor, roughMeteor, radiusMeteor;
@@ -111,6 +111,8 @@ void setup() {
   // load shader with fragment-program and vertex-program
   displaceShader = loadShader("displace_frag.glsl", "displace_vert.glsl");
 
+  /******************** Constructor for Meshes ******************************/
+  /**************************************************************************/
   meshLava = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("lava.png"));
   pLava = meshLava.createMeshNoise(0.01, 0);
 
@@ -128,12 +130,12 @@ void setup() {
   {                              // -MESH/2
     fishContrainer[i] = new Fish(random(-MESH/2, (MESH_WIDTH-(300))), 0, random(0  - 1200));
   }
- // popMatrix();
+  // popMatrix();
   // init time measurement
   lastTime = millis() / 1000.0;
   Front = new Walls(1600, 6000, 40, color(23, 51, 112));
 
-  /************************** Cloud Constructor *****************************/
+  /************************** Constructor Cloud *****************************/
   /**************************************************************************/
   clouds = new Cloud[numClouds];
   for (int i = 0; i < numClouds; i++) 
@@ -141,14 +143,16 @@ void setup() {
     clouds[i] = new Cloud(random(MESH_WIDTH - 400), random(-400, 0)+ (-1600), random(-1200));
   }
 
-  // Lava Bubbles
+  /******************* Constructor Lava Bubbles *****************************/
+  /**************************************************************************/
   lavaBubbles = new Bubble[numLava];
   for (int i = 0; i < numLava; i++) 
   {
     lavaBubbles[i] = new Bubble( random(MESH_WIDTH), random(height - 400), random(0  - 1200), color(230, 10, 0));
   }
 
-  // Water Bubbles
+  /******************** Constructor Air Bubbles *****************************/
+  /**************************************************************************/
   water = new Bubble[numWater];
   for (int i = 0; i < numWater; i++) 
   {
@@ -159,18 +163,16 @@ void setup() {
   Stars = new SpaceObjects[numStars];
   for (int i = 0; i < numStars; i++) 
   {
-    Stars[i] = new SpaceObjects( random(-10, 1700), random(-2900, 0)+ (-2400), -1300, color(255, 255, 255));
+    Stars[i] = new SpaceObjects( random(200, MESH_WIDTH), random(-2900, 0)+ (-2400), -1200, color(255, 255, 255));
   }
 
-  // Setting Color for Asteroids
-  surpriseMe(numMeteor);
-
-  // Meteor
+  /************************ Constructor Meteors *****************************/
+  /**************************************************************************/
   meteorContrainer = new Rock[numMeteor];
   for (int i = 0; i < numMeteor; i++) 
   {
     int tmp = int(dice(0, numMeteor));                       // -400
-    meteorContrainer[i] = new Rock(random(-10, 1200), random(-2900, 0)+ (-3500), random(-1200));
+    meteorContrainer[i] = new Rock(random(400, MESH_WIDTH), random(-2900, 0)+ (-3500), random(-1200));
   }
 
   Sat1 = new SpaceObjects(random(-10, 100), -2900, -1480, loadImage("sat.png"), 5, 10);
@@ -232,7 +234,7 @@ void draw() {
       meshWater.displaceQuadY(pWater, x, z, sin(0.9) + 0.3);
     }
   }
-  
+
   /************************** Texture with Walls ****************************/
   /**************************************************************************/
   pushMatrix();
@@ -244,9 +246,10 @@ void draw() {
   pushMatrix();
   Front.doRight(MESH_WIDTH - 200, height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
   popMatrix();
- 
+  /**************************** END ****************************************/
+
   /****************************** Clouds ************************************/
-  /**************************************************************************/  
+  /**************************************************************************/
   for (int i = 0; i < clouds.length; i++) {
     if (i < (clouds.length / 2))
     {
@@ -258,6 +261,7 @@ void draw() {
       clouds[i].render(speedClouds);
     }
   }
+  /**************************** END ****************************************/
 
 
   /****************************** Lava Bubbles ******************************/
@@ -273,6 +277,8 @@ void draw() {
     }
     popMatrix();
   }
+    /**************************** END ****************************************/
+
   /******************************* Air Bubbles ******************************/
   /**************************************************************************/
   for (int i = 0; i < water.length; i++) 
@@ -286,24 +292,26 @@ void draw() {
     }
     popMatrix();
   }
+  /**************************** END ****************************************/
 
-  // Stars
+  /********************************* Stars ***********************************/
+  /**************************************************************************/
   for (int i = 0; i < Stars.length; i++) 
   {
     if (i < (Stars.length / 2))
     {
-      Stars[i].update(100, 1780, true);
+      Stars[i].update(MESH, MESH_WIDTH + MESH, true);
       Stars[i].renderStars(speedStars, detailStars, radiusStars);
     } else
     {
-      Stars[i].update(1780, 100, false);
+      Stars[i].update(MESH_WIDTH + MESH, MESH, false);
       Stars[i].renderStars(speedStars, detailStars, radiusStars);
     }
-    
   }   
+  /**************************** END ****************************************/
 
   /********************************* Fish ***********************************/
-  /**************************************************************************/
+  /***********************************************************************NOT DONE***/
   for (int i = 0; i < fishContrainer.length; i++) 
   {    
     if (i < (fishContrainer.length / 2))
@@ -315,26 +323,24 @@ void draw() {
       fishContrainer[i].update(MESH_WIDTH-(300), -(MESH_WIDTH/4) + MESH_WIDTH/2, false, -1);
       fishContrainer[i].render(speedFishes);
     }
-    if ( fishContrainer[i].pos.y < -50) 
-    {
-      //fishContrainer[i].reset(MESH);
-    }
-
   }
+  /**************************** END ****************************************/
 
-  // Meteor
+  /********************************** Meteors *******************************/
+  /**************************************************************************/
   for (int i = 0; i < meteorContrainer.length; i++) 
   { 
     if (i < (meteorContrainer.length / 2))
     {
-      meteorContrainer[i].update(-50, 1780, true, radiusMeteor);
+      meteorContrainer[i].update(MESH, MESH_WIDTH + MESH, true, radiusMeteor);
       meteorContrainer[i].render(random(0.001, 0.01));
     } else
     {
-      meteorContrainer[i].update(1728, -50, false, radiusMeteor);
+      meteorContrainer[i].update(MESH_WIDTH + MESH, MESH, false, radiusMeteor);
       meteorContrainer[i].render(random(0.001, 0.01));
     }
   }  
+  /*************************** END ****************************************/
 
   // Sat 1
   Sat1.update(-50, 1780, true);
@@ -361,6 +367,7 @@ void draw() {
   meshWater.doPosition(MESH, height/2 - 1400, 0);
   shape(pWater);
   popMatrix();
+  /*************************** END ****************************************/
 
 
   // enable displace shader
@@ -483,7 +490,7 @@ void controlEvent(ControlEvent theEvent) {
     Stars = new SpaceObjects[numStars];
     for (int i = 0; i < numStars; i++) 
     {
-      Stars[i] = new SpaceObjects( random(-10, 1700), random(-2900, 0)+ (-2400), -1300, color(255, 255, 255));
+      Stars[i] = new SpaceObjects( random(MESH_WIDTH - 400), random(-2900, 0)+ (-2400), -1300, color(255, 255, 255));
     }
     break;
     case(8):
@@ -498,12 +505,12 @@ void controlEvent(ControlEvent theEvent) {
     break;
 
     case(9):
-  // Fishes  
-  fishContrainer = new Fish[numFishes];
-  for (int i = 0; i < numFishes; i++) 
-  {
-    fishContrainer[i] = new Fish(random(-MESH/2, (MESH_WIDTH-(300))), 0, random(0  - 1200));
-  }
+    // Fishes  
+    fishContrainer = new Fish[numFishes];
+    for (int i = 0; i < numFishes; i++) 
+    {
+      fishContrainer[i] = new Fish(random(-MESH/2, (MESH_WIDTH-(300))), 0, random(0  - 1200));
+    }
     break;
   }
 }
@@ -513,13 +520,13 @@ void controlEvent(ControlEvent theEvent) {
 /************** Funktion für Sprite als BG (Laggy) ****/
 /* Funktionierende Funktion für BG als Sprite! ********
 /* Einfach render für Hintrgrundwand ersetzen.. ******
-  
-  PVector Mache Wasser()
-  {
-      PImage fish = loadImage("water.jpg");
-      pushMatrix();
-      translate(x,y,z);
-      image(fish,0,0,mesh,8000);
-      popMatrix();
-  }
-  */
+ 
+ PVector Mache Wasser()
+ {
+ PImage fish = loadImage("water.jpg");
+ pushMatrix();
+ translate(x,y,z);
+ image(fish,0,0,mesh,8000);
+ popMatrix();
+ }
+ */
