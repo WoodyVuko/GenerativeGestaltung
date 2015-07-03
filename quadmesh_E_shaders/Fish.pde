@@ -15,12 +15,10 @@ class Fish
       col = new PVector( random(255), random(255) , random(255));
       //speed = random(1, 5);
       radius = random( 5, 10 );
-      println(x);
     }
      
      void xxx(float x)
      {
-       println("X: ", pos.x);
        pos.x = x;
        pushMatrix();
        translate(x, pos.y, pos.z);

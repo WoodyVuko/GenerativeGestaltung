@@ -45,28 +45,32 @@ Bubble[] water;
 int numFishes, speedFishes;
 Fish[] fishContrainer;
 
-// Wand Fronte
+/************************* Global parameters for "Wall" *******************************/
+/***************************************************************************************/
 Walls Front;
 
-
-// Texture
+/************************* Global parameters for "Shader" *******************************/
+/***************************************************************************************/
 PShader texShader;
 PImage texture, label;
 
-// Time Counter
+/************************* Global parameters for "Time" *******************************/
+/***************************************************************************************/
 float timePassed = 0f;
 float lastTime = 0;
 
-// quad mesh
+/************************* Global parameters for "Mesh" *******************************/
+/***************************************************************************************/
 PShape pLava, pIsland, pWater, pFront;
 Mesh meshLava, meshIsland, meshWater;
 
-
-// displacement shader
+/************************* Global parameters for "Shader" *******************************/
+/***************************************************************************************/
 PShader displaceShader;
 
 
-// USER PARAMETERS
+/************************* Global Details for "Mesh" ***********************************/
+/***************************************************************************************/
 int N = 400 ;  
 float MESH_WIDTH;    
 float Y_OFFSET = 000;
@@ -75,6 +79,8 @@ int pos = 0;
 
 float test, MESH = N + (100*2); // MagicNumber 
 
+/************************* Global parameters for "Distances" ***************************/
+/***************************************************************************************/
 float distanceLavaToSea = -100;
 float distance0 = -800;
 float distanceSeaToWater = -900;
@@ -86,13 +92,11 @@ float distance3 = -200;
 
 
 
-// Moving
+/************************* Global parameters for "Movement" ****************************/
+/***************************************************************************************/
 float reinRaus = (MESH_WIDTH/2);
 float linksRechts = -MESH - (100);
 float hochRunter = height/2 + 300;
-
-
-
 int lod = 1;
 
 void setup() { 
@@ -182,7 +186,7 @@ void setup() {
   /**************************************************************************/
   Sat1 = new SpaceObjects(random(400, MESH_WIDTH + MESH), -3500, -1200, loadImage("sat.png"), 5, 10);
   Sat2 = new SpaceObjects(random(400, MESH_WIDTH + MESH), -3200, -1200, loadImage("sat2.png"), 2, 5);
-    
+
   /************************ Constructor Planets *****************************/
   /**************************************************************************/
   Moon = new SpaceObjects(MESH_WIDTH/2 + MESH, -4500, -1200, loadImage("moon.jpg"), 0, 0);
@@ -197,11 +201,14 @@ void draw() {
   lod = 1 + frameCount/40;
   background(0, 0, 0);
 
-  // measure the passed time
+  /************************** Time ******************************************/
+  /**************************************************************************/
   float currentTime = millis() / 1000.0;
   timePassed += (currentTime-lastTime);
   lastTime = currentTime;
 
+  /************************** Find Middle **********************************/
+  /**************************************************************************/
   for (int i = 0; i < 400; i++)
   {
     pos = meshLava.findQuad(pLava, 200, 200, -300.00);
@@ -212,11 +219,12 @@ void draw() {
     meshWater.displaceQuadY(pWater, 200, 200, -300.00);
   }
 
-  // pass the value to the shader 
+  /********************* Values for Shader **********************************/
+  /**************************************************************************/
   displaceShader.set("timePassed", timePassed);
-  displaceShader.set("pos", pos);
 
-  // center mesh to camera
+  /************************** Camera ***************************************/
+  /**************************************************************************/
   translate (linksRechts, hochRunter, reinRaus);
 
   /************************** Noise  Water **********************************/
@@ -323,7 +331,7 @@ void draw() {
       fishContrainer[i].render(speedFishes);
     }
   }
-  
+
   /********************************** Meteors *******************************/
   /**************************************************************************/
   for (int i = 0; i < meteorContrainer.length; i++) 
@@ -338,7 +346,7 @@ void draw() {
       meteorContrainer[i].render(random(0.001, 0.01));
     }
   }  
-  
+
   /************************** Satellites ************************************/
   /**************************************************************************/
   Sat1.update(MESH, MESH_WIDTH + MESH, true);
@@ -367,16 +375,15 @@ void draw() {
   meshWater.doPosition(MESH, height/2 - 1400, 0);
   shape(pWater);
   popMatrix();
-  /*************************** END ****************************************/
 
-
-  // enable displace shader
+  /************************** Shader ****************************************/
+  /**************************************************************************/
   shader(displaceShader);
-
-  // enable textureshader
   shader(texShader);
 }
 
+/************************ Randomfunction **********************************/
+/**************************************************************************/
 float dice(float min, float max)
 {
   float tmp = random(max);
@@ -387,6 +394,8 @@ float dice(float min, float max)
   return tmp;
 }
 
+/************************** Random Color Grey *****************************/
+/**************************************************************************/
 void surpriseMe(int count)
 {
   colorContrainer = new color[count];
@@ -402,6 +411,8 @@ void surpriseMe(int count)
   }
 }
 
+/************************** Movement Control ******************************/
+/**************************************************************************/
 void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
@@ -441,6 +452,9 @@ void keyPressed() {
     background(0, 0, 255);
   }
 }
+
+/************************** Control Window ********************************/
+/**************************************************************************/
 
 void controlEvent(ControlEvent theEvent) {
 
