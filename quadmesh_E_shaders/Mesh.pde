@@ -48,6 +48,63 @@ void displaceVertex (PShape shape, int index, float y) {
       // return shape;
     return temp;      
     }
+    /*
+    PShape createMesh () {
+
+  mesh = createShape();
+  // quad mesh means, each subsequent 4 vertices form a quad
+  mesh.beginShape(QUADS);
+
+  // draw no lines
+  mesh.noStroke();
+  
+  
+  // CALCULATED PARAMETERS
+  float w = MESH_WIDTH/N;
+  float h = MESH_WIDTH/N;
+  
+  // iterate over grid, create 4 vertices to draw a single quad
+  for (int i=0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+      
+      // we calculate the y position of each quad 
+      float y = Y_OFFSET;
+      
+      // noise freq
+      float wx = 0.038;
+      float wz = 0.01;
+      
+      
+      // color red for all vertices
+      mesh.fill(0,0,255);
+      
+      if ((i+j)%2==0) {
+        mesh.fill(0,255,0);
+      }
+      
+      // calculate 2D noise-value, dependant on x,z coordinate
+      // noise (w*x, w*z);
+      float b = noise (wx*i, wz*j)*255;
+//      mesh.fill (b);
+      mesh.vertex(i*w, b, -j*w);
+      
+      b = noise (wx*(i+1), wz*j)*255;
+//      mesh.fill (b);
+      mesh.vertex((i+1)*w, b, -j*w);
+      
+      b = noise(wx*(i+1), wz*(j+1))*255;
+//      mesh.fill (b);
+      mesh.vertex((i+1)*w, b, -(j+1)*w);
+      
+      b = noise(wx*i,wz*(j+1))*255;
+//     mesh.fill (b);
+      mesh.vertex(i*w, b, -(j+1)*w);
+    }
+  }
+  mesh.endShape();
+  return mesh;
+} */
+    
     PShape createMesh()
     {
       textureMode(NORMAL);
@@ -91,6 +148,8 @@ void displaceVertex (PShape shape, int index, float y) {
           return mesh;
 
     }
+    
+    
     PShape createMeshNoise (float noise, float high) 
     {    
       textureMode(NORMAL);

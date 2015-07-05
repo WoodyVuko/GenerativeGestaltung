@@ -229,22 +229,20 @@ void draw() {
 
   /************************** Noise  Water **********************************/
   /**************************************************************************/
+  // move the middle quad in y-direction  
   float wx = 0.01;
-  float wz = 10;
+  float wz = 0;
   float t = frameCount*0.01;
-  int count = 0;
 
-  for (int x=0; x<N; x++) 
-  {
-    for (int z=0; z<N; z++) 
-    {
+  for (int x=0; x<N; x++) {
+    for (int z=0; z<N; z++) {
+
       float y = 0;
-      //noiseDetail(lod,0.7);
-      //y += 255 * noise(0.01*x, 0);
-      y += sin(50 * noise(0.1*x+t*10, 0));
-      //println("x", x, " z", z);  
+      noiseDetail(lod, 0.7);
+      y += 255 * noise(0.01*x, 0);
+      //y += 50 * noise(0.1*x+t*10, 0);
 
-      meshWater.displaceQuadY(pWater, x, z, sin(0.9) + 0.3);
+      //displaceVertex (mesh, x, z, y);
     }
   }
 
@@ -544,3 +542,86 @@ void controlEvent(ControlEvent theEvent) {
  popMatrix();
  }
  */
+
+
+class Mesh2
+{
+
+  Mesh2()
+  {
+  }
+
+  /*
+* This function finds the quad on indexed position xi, zi and sets the y-coordinate.
+   * xi and zi are not the xz-world coordinates but the indices of row and column of the mesh.
+   * (N/2, N/2) would be the quad in the middle.
+   */
+  void displaceQuadY (PShape shape, int x, int z, float y) {
+    // find the start vertex of the quad on position xi, zi
+    int index = z*4 + x*N*4;
+
+    for (int i=0; i<4; i++) {
+      PVector v = shape.getVertex(index+i);
+      v.y = y;
+      shape.setVertex(index+i, v);
+    }
+  }
+
+
+  PShape createMesh (PShape mesh) {
+
+    mesh = createShape();
+    // quad mesh means, each subsequent 4 vertices form a quad
+    mesh.beginShape(QUADS);
+
+    // draw no lines
+    mesh.noStroke();
+
+
+    // CALCULATED PARAMETERS
+    float w = MESH_WIDTH/N;
+    float h = MESH_WIDTH/N;
+
+    // iterate over grid, create 4 vertices to draw a single quad
+    for (int i=0; i < N; i++) {
+      for (int j = 0; j < N; j++) {
+
+        // we calculate the y position of each quad 
+        float y = Y_OFFSET;
+
+        // noise freq
+        float wx = 0.038;
+        float wz = 0.01;
+
+
+        // color red for all vertices
+        mesh.fill(0, 0, 255);
+
+        if ((i+j)%2==0) {
+          mesh.fill(0, 255, 0);
+        }
+
+        // calculate 2D noise-value, dependant on x,z coordinate
+        // noise (w*x, w*z);
+        float b = noise (wx*i, wz*j)*255;
+        //      mesh.fill (b);
+        mesh.vertex(i*w, b, -j*w);
+
+        b = noise (wx*(i+1), wz*j)*255;
+        //      mesh.fill (b);
+        mesh.vertex((i+1)*w, b, -j*w);
+
+        b = noise(wx*(i+1), wz*(j+1))*255;
+        //      mesh.fill (b);
+        mesh.vertex((i+1)*w, b, -(j+1)*w);
+
+        b = noise(wx*i, wz*(j+1))*255;
+        //     mesh.fill (b);
+        mesh.vertex(i*w, b, -(j+1)*w);
+      }
+    }
+    mesh.endShape();
+    return mesh;
+  }
+}
+
