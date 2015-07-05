@@ -61,8 +61,8 @@ float lastTime = 0;
 
 /************************* Global parameters for "Mesh" *******************************/
 /***************************************************************************************/
-PShape pLava, pIsland, pWater, pFront;
-Mesh meshLava, meshIsland, meshWater;
+PShape pLava, pIsland, pWater, pFront, pLand;
+Mesh meshLava, meshIsland, meshWater, meshLand;
 
 /************************* Global parameters for "Shader" *******************************/
 /***************************************************************************************/
@@ -99,6 +99,14 @@ float linksRechts = -MESH - (100);
 float hochRunter = height/2 + 300;
 int lod = 1;
 
+
+float scale0;
+float scale1;
+
+float amp0;
+float amp1;
+float runter;
+
 void setup() { 
   size(600, 600, P3D);  
   frameRate(25);
@@ -124,6 +132,9 @@ void setup() {
 
   meshWater = new Mesh(color(68, 53, 255), color(0, 0, 255), N, loadImage("water.jpg"));
   pWater = meshWater.createMesh();
+
+  meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("lava.png"));
+  pLand = meshLand.createMesh2(amp0, amp1, scale0, scale1 );
 
   /******************* Center to Mesh ***************************************/
   /**************************************************************************/
@@ -374,6 +385,10 @@ void draw() {
   shape(pWater);
   popMatrix();
 
+  pushMatrix();
+  meshLand.doPosition(MESH, height/2 - 1500 - runter, -1300);
+  shape(pLand);
+  popMatrix();
   /************************** Shader ****************************************/
   /**************************************************************************/
   shader(displaceShader);
@@ -523,6 +538,15 @@ void controlEvent(ControlEvent theEvent) {
     {
       fishContrainer[i] = new Fish(random(-MESH/2, (MESH_WIDTH-(300))), 0, random(0  - 1200));
     }
+    break;
+
+    case(10):
+    meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("lava.png"));
+    pLand = meshLand.createMesh2(amp0, amp1, scale0, scale1 );
+    break;
+    
+    case(11):
+    
     break;
   }
 }
