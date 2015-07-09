@@ -60,7 +60,7 @@ class Walls
     vertex( -800, 800, 0, 0, 8000);
     endShape(CLOSE);
     popMatrix();
-    println("X LEFT: ", x);
+   // println("X LEFT: ", x);
   }
 
   void doRight(float x, float y, float z, float mesh)
@@ -91,7 +91,7 @@ class Walls
     //texture(img);
     box(size.x, size.y, size.z);
     popMatrix();
-    println("x: ", x, "  y:", y, "  z:", z);
+    //println("x: ", x, "  y:", y, "  z:", z);
   }
 }
 

@@ -6,6 +6,9 @@ import java.awt.Frame;
 import java.awt.BorderLayout;
 import controlP5.*;
 
+import shapes3d.utils.*;
+import shapes3d.animation.*;
+import shapes3d.*;
 /************************* ControlP5 Interface CLass ***********************************/
 /***************************************************************************************/
 ControlP5 cp5;
@@ -100,7 +103,7 @@ int lod = 1;
 /************************* Global parameters for "Land" ****************************/
 /***************************************************************************************/
 float scale0, scale1, amp0, amp1, y_posi;
-
+Box box;
 
 
 float ti;
@@ -205,7 +208,10 @@ void setup() {
 
   Level = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 0, 0));
   Sand = new Walls(MESH_WIDTH, 130, -MESH_WIDTH, color(0, 0, 0));
-  Lava = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 255, 0));
+  //Lava = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 255, 0));
+
+  box = new Box(this, MESH_WIDTH, 140, -MESH_WIDTH);
+  box = boxTexture(box, "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
 
   // init time measurement
   lastTime = millis() / 1000.0;
@@ -279,8 +285,13 @@ void draw() {
   Sand.doLevel(        MESH + (MESH_WIDTH/2), -247 + (MESH_WIDTH / 60) + ti, -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
   popMatrix();
   pushMatrix();
-  Lava.doLevel(        MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
+  //Lava.doLevel(        MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
   popMatrix();
+
+  box.moveTo(MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
+  //box.setTexture(label, Box.FRONT);
+  box.draw();
+
   /****************************** Clouds ************************************/
   /**************************************************************************/
   for (int i = 0; i < clouds.length; i++) {
@@ -479,6 +490,19 @@ void keyPressed() {
   }
 }
 
+Box boxTexture(Box box, String vorne, String hinten, String links, String rechts, String oben, String unten )
+{
+  box.setTexture(hinten, Box.FRONT); // Back
+  box.setTexture(vorne, Box.BACK);  // Front
+  box.setTexture(rechts, Box.LEFT);
+  box.setTexture(links, Box.RIGHT);
+  box.setTexture(oben, Box.TOP);  
+  box.setTexture(unten, Box.BOTTOM);
+  //box.visible(true, Box.BOTTOM);
+  box.drawMode(Shape3D.TEXTURE);
+
+  return box;
+}
 /************************** Control Window ********************************/
 /**************************************************************************/
 
@@ -548,7 +572,9 @@ void controlEvent(ControlEvent theEvent) {
 
     Level = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(94, 96, 0));
     Sand = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(255, 225, 149));
-    Lava = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 181, 0));
+    //Lava = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 181, 0));
+    box = new Box(this, MESH_WIDTH, 140, -MESH_WIDTH);
+    box = boxTexture(box, "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
 
     break;
 
