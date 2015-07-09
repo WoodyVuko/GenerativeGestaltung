@@ -105,13 +105,15 @@ int lod = 1;
 float scale0, scale1, amp0, amp1, y_posi;
 Box lavaBox, seaBox, landBox;
 
-
+Ellipsoid earth;
 float ti;
 
 
 void setup() { 
   size(600, 600, P3D);  
   frameRate(50); // 25
+    earth = AddEllipsoid (20,30, "Earth.jpg", 90);
+
   // Control Window
   cp5 = new ControlP5(this);
   cf = addControlFrame("controls", 400, 400); 
@@ -424,6 +426,11 @@ void draw() {
   /**************************************************************************/
   shader(displaceShader);
   shader(texShader);
+  
+      earth.rotateBy(0, radians(0.6), 0);
+
+    earth.draw(); // draw earth and added shapes (moon)
+
 }
 
 /************************ Randomfunction **********************************/
@@ -609,7 +616,14 @@ void controlEvent(ControlEvent theEvent) {
   }
 }
 
-
+Ellipsoid AddEllipsoid (int slices, int segments, String textureFile, float radius) 
+{
+  Ellipsoid aShape = new Ellipsoid(this, slices, segments);
+  aShape.setTexture(textureFile);
+  aShape.drawMode(Shape3D.TEXTURE);
+  aShape.setRadius(radius);
+  return aShape;
+}
 
 /************** Funktion für Sprite als BG (Laggy) ****/
 /* Funktionierende Funktion für BG als Sprite! ********
