@@ -74,7 +74,7 @@ PShader displaceShader;
 
 /************************* Global Details for "Mesh" ***********************************/
 /***************************************************************************************/
-int N = 400 ;  
+int N = 400 ; // 400  
 float MESH_WIDTH;    
 float Y_OFFSET = 000;
 float center = MESH_WIDTH / 2.0;
@@ -103,7 +103,7 @@ int lod = 1;
 /************************* Global parameters for "Land" ****************************/
 /***************************************************************************************/
 float scale0, scale1, amp0, amp1, y_posi;
-Box box;
+Box lavaBox, seaBox, landBox;
 
 
 float ti;
@@ -128,13 +128,13 @@ void setup() {
   meshLava = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("lava.png"));
   pLava = meshLava.createMeshNoise(0.01, 0);
 
-  meshIsland = new Mesh(color(0, 0, 0), color(0, 0, 255), N, loadImage("ocean.jpg"));
+  meshIsland = new Mesh(color(0, 0, 0), color(0, 0, 255), MESH_WIDTH, loadImage("seaBox.jpg"));
   pIsland = meshIsland.createMeshNoise(0.02, 10300);
 
   meshWater = new Mesh(color(68, 53, 255), color(0, 0, 255), N, loadImage("water.jpg"));
   pWater = meshWater.createMesh();
 
-  meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("land.jpg"));
+  meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("landBoxOben.jpg"));
   pLand = meshLand.createMesh2(amp0, amp1, scale0, scale1 );
 
   /******************* Center to Mesh ***************************************/
@@ -206,12 +206,16 @@ void setup() {
   Front = new Walls(1600, 6000, 40, color(23, 51, 112));
 
 
-  Level = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 0, 0));
-  Sand = new Walls(MESH_WIDTH, 130, -MESH_WIDTH, color(0, 0, 0));
+  //Level = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 0, 0));
+  //Sand = new Walls(MESH_WIDTH, 130, -MESH_WIDTH, color(0, 0, 0));
   //Lava = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 255, 0));
 
-  box = new Box(this, MESH_WIDTH, 140, -MESH_WIDTH);
-  box = boxTexture(box, "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
+  lavaBox = new Box(this, MESH_WIDTH, 140, -MESH_WIDTH);
+  lavaBox = BoxTexture(lavaBox, "lavaBoxVorne.jpg", "lavaBoxVorne.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
+  seaBox = new Box(this, MESH_WIDTH, 100 + ti, -MESH_WIDTH);
+  seaBox = BoxTexture(seaBox, "seaBoxVorne.jpg", "seaBoxVorne.jpg", "seaBox.jpg", "seaBox.jpg", "seaBoxOben.jpg", "seaBox.jpg");
+  landBox = new Box(this, MESH_WIDTH, 100 + ti, -MESH_WIDTH);
+  landBox = BoxTexture(landBox, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxOben.jpg", "landBoxDown.jpg");
 
   // init time measurement
   lastTime = millis() / 1000.0;
@@ -279,18 +283,21 @@ void draw() {
   popMatrix();
 
   pushMatrix();
-  Level.doLevel(        MESH + (MESH_WIDTH/2), -953.8 + (-1.85) + (7.5), -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
+  //Level.doLevel(        MESH + (MESH_WIDTH/2), -953.8 + (-1.85) + (7.5), -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
   popMatrix();
   pushMatrix();
-  Sand.doLevel(        MESH + (MESH_WIDTH/2), -247 + (MESH_WIDTH / 60) + ti, -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
+  //Sand.doLevel(        MESH + (MESH_WIDTH/2), -247 + (MESH_WIDTH / 60) + ti, -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
   popMatrix();
   pushMatrix();
   //Lava.doLevel(        MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
   popMatrix();
 
-  box.moveTo(MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
-  //box.setTexture(label, Box.FRONT);
-  box.draw();
+  lavaBox.moveTo(MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
+  seaBox.moveTo(MESH + (MESH_WIDTH/2), -247 + (MESH_WIDTH / 60) + ti, -MESH/2 + 300 + (-MESH_WIDTH/2));
+  landBox.moveTo(MESH + (MESH_WIDTH/2), -953.8 + (-1.85) + (7.5), -MESH/2 + 300 + (-MESH_WIDTH/2));
+  lavaBox.draw();  
+  seaBox.draw();
+  landBox.draw();
 
   /****************************** Clouds ************************************/
   /**************************************************************************/
@@ -490,18 +497,18 @@ void keyPressed() {
   }
 }
 
-Box boxTexture(Box box, String vorne, String hinten, String links, String rechts, String oben, String unten )
+Box BoxTexture(Box lavaBox, String vorne, String hinten, String links, String rechts, String oben, String unten )
 {
-  box.setTexture(hinten, Box.FRONT); // Back
-  box.setTexture(vorne, Box.BACK);  // Front
-  box.setTexture(rechts, Box.LEFT);
-  box.setTexture(links, Box.RIGHT);
-  box.setTexture(oben, Box.TOP);  
-  box.setTexture(unten, Box.BOTTOM);
-  //box.visible(true, Box.BOTTOM);
-  box.drawMode(Shape3D.TEXTURE);
+  lavaBox.setTexture(hinten, lavaBox.FRONT); // Back
+  lavaBox.setTexture(vorne, lavaBox.BACK);  // Front
+  lavaBox.setTexture(rechts, lavaBox.LEFT);
+  lavaBox.setTexture(links, lavaBox.RIGHT);
+  lavaBox.setTexture(oben, lavaBox.TOP);  
+  lavaBox.setTexture(unten, lavaBox.BOTTOM);
+  //lavaBox.visible(true, lavaBox.BOTTOM);
+  lavaBox.drawMode(Shape3D.TEXTURE);
 
-  return box;
+  return lavaBox;
 }
 /************************** Control Window ********************************/
 /**************************************************************************/
@@ -567,14 +574,18 @@ void controlEvent(ControlEvent theEvent) {
     meshWater = new Mesh(color(68, 53, 255), color(0, 0, 255), N, loadImage("water.jpg"));
     pWater = meshWater.createMesh();
 
-    meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("land.jpg"));
+    meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("landBoxOben.jpg"));
     pLand = meshLand.createMesh2(amp0, amp1, scale0, scale1 );
 
     Level = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(94, 96, 0));
-    Sand = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(255, 225, 149));
+    //Sand = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(255, 225, 149));
     //Lava = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 181, 0));
-    box = new Box(this, MESH_WIDTH, 140, -MESH_WIDTH);
-    box = boxTexture(box, "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
+    lavaBox = new Box(this, MESH_WIDTH, 140, -MESH_WIDTH);
+    lavaBox = BoxTexture(lavaBox, "lavaBoxVorne.jpg", "lavaBoxVorne.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
+    seaBox = new Box(this, MESH_WIDTH, 130, -MESH_WIDTH);
+    seaBox = BoxTexture(seaBox, "seaBoxVorne.jpg", "seaBoxVorne.jpg", "seaBox.jpg", "seaBox.jpg", "seaBox.jpg", "seaBoxOben.jpg");
+    landBox = new Box(this, MESH_WIDTH, 100 + ti, -MESH_WIDTH);
+    landBox = BoxTexture(landBox, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBox.jpg", "landBox.jpg", "landBoxOben.jpg", "landBoxDown.jpg");
 
     break;
 
