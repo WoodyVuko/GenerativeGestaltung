@@ -55,12 +55,12 @@ public class ControlFrame extends PApplet {
         .setColorLabel(color(255))
           .setColorActive(color(255, 128, 0));
 
-    cp5.addTab("terrain")
+    cp5.addTab("Land")
       .setColorBackground(color(160, 0, 70))
         .setColorLabel(color(255))
           .setColorActive(color(255, 128, 0));
 
-    cp5.addTab("sun")
+    cp5.addTab("Water")
       .setColorBackground(color(0, 160, 100))
         .setColorLabel(color(255))
           .setColorActive(color(255, 128, 0));
@@ -134,15 +134,37 @@ public class ControlFrame extends PApplet {
                 .setPosition(10, 50)
                   .moveTo("Mesh"); 
 
-    // Testing!!!!!!!!!     
+    // Testing!!!!!!!!!   
+  
+      cp5.addSlider("Breite")
+      .plugTo(parent, "br")
+        .setRange(-900, 900)
+          .setNumberOfTickMarks(15)
+            .setValue(0)
+                .setPosition(10, 50)
+                  .moveTo("Test"); 
+                  
+       cp5.addSlider("TestTi")
+      .plugTo(parent, "ti")
+        .setRange(-50, 50)
+          .setNumberOfTickMarks(55)
+            .setValue(0)
+                .setPosition(10, 70)
+                  .moveTo("Test"); 
+                                   
+                  
+                  
+                      // Testing!!!!!!!!!   
+
+    
     cp5.addSlider("amp0")
       .plugTo(parent, "amp0")
-        .setRange(-3000, 1000)
+        .setRange(100, 120)
           //.setNumberOfTickMarks(15)
           .setValue(111.11) // -1000
             .setId(10)
               .setPosition(10, 70)
-                .moveTo("Test"); 
+                .moveTo("Land"); 
 
     cp5.addSlider("amp1")
       .plugTo(parent, "amp1")
@@ -151,34 +173,34 @@ public class ControlFrame extends PApplet {
           .setValue(-1111)   //  -3200 // -1666
             .setId(10)
             .setPosition(10, 90)
-              .moveTo("Test"); 
+              .moveTo("Land"); 
 
     cp5.addSlider("scale0")
       .plugTo(parent, "scale0")
-        .setRange(-0.100, 0.100)
+        .setRange(-0.000, 0.100)
           //.setNumberOfTickMarks(15)
           .setValue(0.003)   //  0.003
             .setId(10)
               .setPosition(10, 110)
-                .moveTo("Test"); 
+                .moveTo("Land"); 
 
     cp5.addSlider("scale1")
       .plugTo(parent, "scale1")
-        .setRange(0.010, 0.100)
+        .setRange(0.001, 0.100)
           //.setNumberOfTickMarks(15)
           .setValue(0.009)   //  0.009
             .setId(10)
             .setPosition(10, 130)
-              .moveTo("Test"); 
+              .moveTo("Land"); 
     
-    cp5.addSlider("runter")
-      .plugTo(parent, "runter")
+    cp5.addSlider("y_posi")
+      .plugTo(parent, "y_posi")
         .setRange(-160, -190 )
           //.setNumberOfTickMarks(15)
           .setValue(-167)   //  0.009
             .setId(11)
             .setPosition(10, 150)
-              .moveTo("Test"); 
+              .moveTo("Land"); 
     // Lava Bubbles
     cp5.addTextlabel("Settings: Lava")
       .plugTo(parent, "descriptionLava")
@@ -190,7 +212,7 @@ public class ControlFrame extends PApplet {
     cp5.addSlider("Amount: Lava")
       .plugTo(parent, "numLava")
         .setRange(1, 150)
-          .setValue(50)
+          .setValue(25)
             .setPosition(10, 50)
               .setNumberOfTickMarks(10)
                 .setId(1)
@@ -223,7 +245,7 @@ public class ControlFrame extends PApplet {
     cp5.addSlider("Amount: Fish")
       .plugTo(parent, "numFishes")
         .setRange(1, 250)
-          .setValue(50)
+          .setValue(25)
             .setPosition(10, 50)
               .setNumberOfTickMarks(10)
                 .setId(2)
@@ -247,7 +269,7 @@ public class ControlFrame extends PApplet {
     cp5.addSlider("Amount: Air Bubble")
       .plugTo(parent, "numWater")
         .setRange(1, 150)
-          .setValue(50)
+          .setValue(25)
             .setNumberOfTickMarks(10)
               .setPosition(10, 110)
                 .setId(3)
@@ -379,7 +401,7 @@ public class ControlFrame extends PApplet {
     cp5.addSlider("Amount: Stars")
       .plugTo(parent, "numStars")
         .setRange(0, 249)
-          .setValue(150)
+          .setValue(50)
             .setPosition(10, 230)
               .setNumberOfTickMarks(10)
                 .setId(7)

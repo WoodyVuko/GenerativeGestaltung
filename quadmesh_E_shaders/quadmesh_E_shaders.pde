@@ -47,7 +47,7 @@ Fish[] fishContrainer;
 
 /************************* Global parameters for "Wall" *******************************/
 /***************************************************************************************/
-Walls Front;
+Walls Front, Level, Lava, Sand;
 
 /************************* Global parameters for "Shader" *******************************/
 /***************************************************************************************/
@@ -90,8 +90,6 @@ float distance2 = distance0 * 3;
 float ditanceFishToLand = 400;
 float distance3 = -200;
 
-
-
 /************************* Global parameters for "Movement" ****************************/
 /***************************************************************************************/
 float reinRaus = (MESH_WIDTH/2);
@@ -99,18 +97,18 @@ float linksRechts = -MESH - (100);
 float hochRunter = height/2 + 300;
 int lod = 1;
 
+/************************* Global parameters for "Land" ****************************/
+/***************************************************************************************/
+float scale0, scale1, amp0, amp1, y_posi;
 
-float scale0;
-float scale1;
 
-float amp0;
-float amp1;
-float runter;
+
+float ti;
+
 
 void setup() { 
   size(600, 600, P3D);  
-  frameRate(25);
-
+  frameRate(50); // 25
   // Control Window
   cp5 = new ControlP5(this);
   cf = addControlFrame("controls", 400, 400); 
@@ -133,7 +131,7 @@ void setup() {
   meshWater = new Mesh(color(68, 53, 255), color(0, 0, 255), N, loadImage("water.jpg"));
   pWater = meshWater.createMesh();
 
-  meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("lava.png"));
+  meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("land.jpg"));
   pLand = meshLand.createMesh2(amp0, amp1, scale0, scale1 );
 
   /******************* Center to Mesh ***************************************/
@@ -149,8 +147,6 @@ void setup() {
   }
   // popMatrix();
   // init time measurement
-  lastTime = millis() / 1000.0;
-  Front = new Walls(1600, 6000, 40, color(23, 51, 112));
 
   /************************** Constructor Cloud *****************************/
   /**************************************************************************/
@@ -202,6 +198,14 @@ void setup() {
   /**************************************************************************/
   Moon = new SpaceObjects(MESH_WIDTH/2 + MESH, -4500, -1200, loadImage("moon.jpg"), 0, 0);
   Sun = new SpaceObjects(MESH_WIDTH/2 + MESH, -5600, -1200, loadImage("sun.jpg"), 0, 0);
+
+  lastTime = millis() / 1000.0;
+  Front = new Walls(1600, 6000, 40, color(23, 51, 112));
+
+
+  Level = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 0, 0));
+  Sand = new Walls(MESH_WIDTH, 130, -MESH_WIDTH, color(0, 0, 0));
+  Lava = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 255, 0));
 
   // init time measurement
   lastTime = millis() / 1000.0;
@@ -256,7 +260,6 @@ void draw() {
       //displaceVertex (mesh, x, z, y);
     }
   }
-
   /************************** Texture with Walls ****************************/
   /**************************************************************************/
   pushMatrix();
@@ -269,6 +272,15 @@ void draw() {
   Front.doRight(MESH_WIDTH - 200, height/2 - 8000, -MESH_WIDTH, MESH_WIDTH);
   popMatrix();
 
+  pushMatrix();
+  Level.doLevel(        MESH + (MESH_WIDTH/2), -953.8 + (-1.85) + (7.5), -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
+  popMatrix();
+  pushMatrix();
+  Sand.doLevel(        MESH + (MESH_WIDTH/2), -247 + (MESH_WIDTH / 60) + ti, -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
+  popMatrix();
+  pushMatrix();
+  Lava.doLevel(        MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2), MESH_WIDTH);  
+  popMatrix();
   /****************************** Clouds ************************************/
   /**************************************************************************/
   for (int i = 0; i < clouds.length; i++) {
@@ -315,15 +327,15 @@ void draw() {
   /**************************************************************************/
   for (int i = 0; i < Stars.length; i++) 
   {
-    if (i < (Stars.length / 2))
-    {
-      Stars[i].update(MESH, MESH_WIDTH + MESH, true);
-      Stars[i].renderStars(speedStars, detailStars, radiusStars);
-    } else
-    {
-      Stars[i].update(MESH_WIDTH + MESH, MESH, false);
-      Stars[i].renderStars(speedStars, detailStars, radiusStars);
-    }
+    // if (i < (Stars.length / 2))
+    // {
+    Stars[i].update(MESH, MESH_WIDTH + MESH, true);
+    Stars[i].renderStars(speedStars, detailStars, radiusStars);
+    // } else
+    //{
+    //  Stars[i].update(MESH_WIDTH + MESH, MESH, false);
+    //   Stars[i].renderStars(speedStars, detailStars, radiusStars);
+    // }
   }   
 
   /********************************* Fish ***********************************/
@@ -386,9 +398,10 @@ void draw() {
   popMatrix();
 
   pushMatrix();
-  meshLand.doPosition(MESH, height/2 - 1500 - runter, -1300);
+  meshLand.doPosition(MESH, height/2 - 1500 - y_posi, -MESH_WIDTH);
   shape(pLand);
   popMatrix();
+
   /************************** Shader ****************************************/
   /**************************************************************************/
   shader(displaceShader);
@@ -529,6 +542,14 @@ void controlEvent(ControlEvent theEvent) {
 
     meshWater = new Mesh(color(68, 53, 255), color(0, 0, 255), N, loadImage("water.jpg"));
     pWater = meshWater.createMesh();
+
+    meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("land.jpg"));
+    pLand = meshLand.createMesh2(amp0, amp1, scale0, scale1 );
+
+    Level = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(94, 96, 0));
+    Sand = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(255, 225, 149));
+    Lava = new Walls(MESH_WIDTH, 100, -MESH_WIDTH, color(0, 181, 0));
+
     break;
 
     case(9):
@@ -541,12 +562,12 @@ void controlEvent(ControlEvent theEvent) {
     break;
 
     case(10):
-    meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("lava.png"));
+    meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("land.jpg"));
     pLand = meshLand.createMesh2(amp0, amp1, scale0, scale1 );
     break;
-    
+
     case(11):
-    
+
     break;
   }
 }
@@ -566,86 +587,3 @@ void controlEvent(ControlEvent theEvent) {
  popMatrix();
  }
  */
-
-
-class Mesh2
-{
-
-  Mesh2()
-  {
-  }
-
-  /*
-* This function finds the quad on indexed position xi, zi and sets the y-coordinate.
-   * xi and zi are not the xz-world coordinates but the indices of row and column of the mesh.
-   * (N/2, N/2) would be the quad in the middle.
-   */
-  void displaceQuadY (PShape shape, int x, int z, float y) {
-    // find the start vertex of the quad on position xi, zi
-    int index = z*4 + x*N*4;
-
-    for (int i=0; i<4; i++) {
-      PVector v = shape.getVertex(index+i);
-      v.y = y;
-      shape.setVertex(index+i, v);
-    }
-  }
-
-
-  PShape createMesh (PShape mesh) {
-
-    mesh = createShape();
-    // quad mesh means, each subsequent 4 vertices form a quad
-    mesh.beginShape(QUADS);
-
-    // draw no lines
-    mesh.noStroke();
-
-
-    // CALCULATED PARAMETERS
-    float w = MESH_WIDTH/N;
-    float h = MESH_WIDTH/N;
-
-    // iterate over grid, create 4 vertices to draw a single quad
-    for (int i=0; i < N; i++) {
-      for (int j = 0; j < N; j++) {
-
-        // we calculate the y position of each quad 
-        float y = Y_OFFSET;
-
-        // noise freq
-        float wx = 0.038;
-        float wz = 0.01;
-
-
-        // color red for all vertices
-        mesh.fill(0, 0, 255);
-
-        if ((i+j)%2==0) {
-          mesh.fill(0, 255, 0);
-        }
-
-        // calculate 2D noise-value, dependant on x,z coordinate
-        // noise (w*x, w*z);
-        float b = noise (wx*i, wz*j)*255;
-        //      mesh.fill (b);
-        mesh.vertex(i*w, b, -j*w);
-
-        b = noise (wx*(i+1), wz*j)*255;
-        //      mesh.fill (b);
-        mesh.vertex((i+1)*w, b, -j*w);
-
-        b = noise(wx*(i+1), wz*(j+1))*255;
-        //      mesh.fill (b);
-        mesh.vertex((i+1)*w, b, -(j+1)*w);
-
-        b = noise(wx*i, wz*(j+1))*255;
-        //     mesh.fill (b);
-        mesh.vertex(i*w, b, -(j+1)*w);
-      }
-    }
-    mesh.endShape();
-    return mesh;
-  }
-}
-
