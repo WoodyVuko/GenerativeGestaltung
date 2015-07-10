@@ -109,7 +109,7 @@ class Rock
       {
         if(check == true)
         {
-          if(pos.x >= left)
+          if(pos.x > left)
           {
             pos.x -= speed;
 
@@ -117,13 +117,15 @@ class Rock
           }
           else
           {
+            //float tmp = pos.x;
             check = false;
-            pos.x = right; 
+            pos.x += speed;
+            //pos.x = right;// + tmp; 
           }
         }
         else
         {
-          if(pos.x <= right + 1)
+          if(pos.x <= right)
           {
             pos.x += speed;
           }
@@ -146,12 +148,12 @@ class Rock
           else
           {
             check = false;
-            pos.x = right;  
+            pos.x -= speed;  
           }
         }
         else
         {
-          if(pos.x >= right + 1)
+          if(pos.x > right)
           {
             pos.x -= speed;
           }

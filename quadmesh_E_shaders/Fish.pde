@@ -1,113 +1,110 @@
 class Fish
 {
-    PVector pos, col;
-    float   speed, radius;
-    boolean check, rotateCheck;
-    int direction = 1; // left direction
+  PVector pos, size;
+  float   speed, radius;
+  boolean check, rotateCheck;
+  int direction = 1; // left direction
+  PApplet parent;
+  Box TIT;
 
-    
-    Fish(float x, float y, float z)
+  Fish(float x, float y, float z, PApplet pa, String fish)
+  {
+    check = true;
+    parent = pa;
+    size = new PVector(15, 5, 5);
+    pos = new PVector(x, y, z);
+    TIT = new Box(parent, size.x, size.y, size.z);
+    TIT = BoxTexture(TIT, fish);
+    TIT.moveTo(pos.x, pos.y, pos.z);
+  }
+
+  void update(float left, float right, boolean way, int dir)
+  { 
+    direction = dir;
+    if (way == true)
     {
-      check = true;
-      rotateCheck = true;
-      pos = new PVector(x, y, z);
-      //pos = new PVector( random(600, -10), random((300) - 200) , random(0  - 1200));
-      col = new PVector( random(255), random(255) , random(255));
-      //speed = random(1, 5);
-      radius = random( 5, 10 );
-    }
-     
-     // -50 bis 1780 = Rechts nach Links
-    void update(float left, float right, boolean way, int dir)
-    { 
-      direction = dir;
-      if(way == true)
+      if (check == true)
       {
-        if(check == true)
+        if (pos.x >= left)
         {
-          if(pos.x >= left)
-          {
-            pos.x -= speed;
+          pos.x -= speed;
 
           //pos.y -= sin(20);
-          }
-          else
-          {
-            check = false;
-            pos.x = right; 
-          }
-        }
-        else
+        } else
         {
-          if(pos.x <= right + 1)
-          {
-            pos.x += speed;
-          }
-          else
-          {
-            check = true;
-            direction = 1;
-          }
+          check = false;
+          pos.x = right;
+          TIT.rotateToY(6);
+        }
+      } else
+      {
+        if (pos.x <= right + 1)
+        {
+          pos.x += speed;
+        } else
+        {
+          check = true;
+          direction = 1;
+          TIT.rotateToY(6);
         }
       }
-      else
+    } else
+    {
+      if (check == true)
       {
-        if(check == true)
+        if (pos.x <= left)
         {
-          if(pos.x <= left)
-          {
-            pos.x += speed;
+          pos.x += speed;
 
           //pos.y -= sin(20);
-          }
-          else
-          {
-            check = false;
-            pos.x = right;  
-          }
-        }
-        else
+        } else
         {
-          if(pos.x >= right + 1)
-          {
-            pos.x -= speed;
-          }
-          else
-          {
-            check = true;
-            direction = 1; 
-          }        
+          check = false;
+          pos.x = right;
+          TIT.rotateToY(3);
+        }
+      } else
+      {
+        if (pos.x >= right + 1)
+        {
+          pos.x -= speed;
+        } else
+        {
+          check = true;
+          TIT.rotateToY(3);
+          direction = 1;
         }
       }
     }
+  }
+  void render(float speed)
+  {       
+    this.speed = speed;
+    println(pos.x, pos.y, pos.z);
+    TIT.moveTo(width + pos.x, pos.y, pos.z);
+    TIT.draw();
+  }
 
-     
-    void render(float speed)
-    { 
-      this.speed = +speed;
-      noStroke();
-      pushMatrix();//  -800
-      translate(pos.x, -800, pos.z);
-      fill(col.x, col.y, col.z, 230);
-      //stroke(240);
+  void reset(float scale)
+  {
+    pos.x = random(scale);
+    pos.y = random(height);
+    pos.z = random(-1200);
+    speed = random(00.1, 0.1);
+    radius = random( 5, 10 );
+  }
 
-      triangle (pos.x+5*direction, pos.y, pos.x+15*direction, pos.y-8, pos.x+15*direction, pos.y+8);
-      ellipse (pos.x, pos.y, 20, 15);
-                //pushMatrix();
-                //translate(width/2,height/2);
-      fill(44,44,122); 
-      popMatrix();
 
-    }
-    
-    void reset(float scale)
-    {
-        pos.x = random(scale);
-        pos.y = random(height);
-        pos.z = random(-1200);
-        speed = random(00.1, 0.1);
-        radius = random( 5, 10 );
-    }
-     
+  Box BoxTexture(Box Box, String vorne)
+  {
+    Box.setTexture(vorne, Box.BACK);  // Front
+    Box.visible(false, Box.BOTTOM);
+    Box.visible(false, Box.FRONT);
+    Box.visible(false, Box.TOP);
+    Box.visible(false, Box.LEFT);
+    Box.visible(false, Box.RIGHT);
+    Box.drawMode(Shape3D.TEXTURE);
+
+    return Box;
+  }
 }
-

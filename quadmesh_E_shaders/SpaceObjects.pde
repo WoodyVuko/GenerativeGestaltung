@@ -40,11 +40,12 @@ class SpaceObjects
      // -50 bis 1780 = Rechts nach Links
     void update(float left, float right, boolean way)
     { 
+       
       if(way == true)
       {
         if(check == true)
         {
-          if(pos.x >= left)
+          if(pos.x > left)
           {
             pos.x -= speed;
 
@@ -52,13 +53,15 @@ class SpaceObjects
           }
           else
           {
+            //float tmp = pos.x;
             check = false;
-            pos.x = right; 
+            pos.x += speed;
+            //pos.x = right;// + tmp; 
           }
         }
         else
         {
-          if(pos.x <= right + 1)
+          if(pos.x <= right)
           {
             pos.x += speed;
           }
@@ -82,12 +85,12 @@ class SpaceObjects
           else
           {
             check = false;
-            pos.x = right;  
+            pos.x -= speed;  
           }
         }
         else
         {
-          if(pos.x >= right + 1)
+          if(pos.x > right)
           {
             pos.x -= speed;
           }
@@ -117,39 +120,6 @@ void render(float speed)
   popMatrix();
 }
 
-void renderMoon(float speed)
-{
-  angle += speed;
-  pushMatrix();
-  translate(pos.x, pos.y, pos.z);
-  noStroke();
-  rotate(angle); 
-  beginShape();
-  texture(img);
-  vertex(-100, -100, 0, 0, 0);
-  vertex(400, -100, 0, img.width, 0);
-  vertex(400, 400, 0, img.width, img.height);
-  vertex(-100, 400, 0, 0, img.height);
-  endShape();
-  popMatrix();
-}
-
-void renderSun(float speed)
-{
-  angle += speed;
-  pushMatrix();
-  translate(pos.x, pos.y, pos.z);
-  noStroke();
-  rotate(angle); 
-  beginShape();
-  texture(img);
-  vertex(-100, -100, 0, 0, 0);
-  vertex(900, -100, 0, img.width, 0);
-  vertex(900, 900, 0, img.width, img.height);
-  vertex(-100, 900, 0, 0, img.height);
-  endShape();
-  popMatrix();
-}
 
     void renderStars(float speed, float detail, float radius)
     { 

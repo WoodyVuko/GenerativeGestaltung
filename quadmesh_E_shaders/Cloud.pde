@@ -23,7 +23,7 @@ class Cloud
       {
         if(check == true)
         {
-          if(pos.x >= left)
+          if(pos.x > left)
           {
             pos.x -= speed;
 
@@ -31,13 +31,15 @@ class Cloud
           }
           else
           {
+            //float tmp = pos.x;
             check = false;
-            pos.x = right; 
+            pos.x += speed;
+            //pos.x = right;// + tmp; 
           }
         }
         else
         {
-          if(pos.x <= right + 1)
+          if(pos.x <= right)
           {
             pos.x += speed;
           }
@@ -61,12 +63,12 @@ class Cloud
           else
           {
             check = false;
-            pos.x = right;  
+            pos.x -= speed;  
           }
         }
         else
         {
-          if(pos.x >= right + 1)
+          if(pos.x > right)
           {
             pos.x -= speed;
           }
