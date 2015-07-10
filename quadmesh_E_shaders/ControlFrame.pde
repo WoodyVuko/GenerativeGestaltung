@@ -146,8 +146,8 @@ public class ControlFrame extends PApplet {
         .setRange(-1800, 1800)
           .setNumberOfTickMarks(100)
             .setValue(0)
-                .setPosition(10, 50)
-                  .moveTo("Test"); 
+              .setPosition(10, 50)
+                .moveTo("Test"); 
 
     cp5.addSlider("TestTi")
       .plugTo(parent, "ti")
@@ -303,6 +303,31 @@ public class ControlFrame extends PApplet {
             .setValue(3)
               .setPosition(10, 150)
                 .moveTo("Water");  
+
+    cp5.addTextlabel("Settings: Sharks")
+      .plugTo(parent, "descriptionSharks")
+        .setText("Settings: Sharks")
+          .setPosition(10, 170)
+            .setColorValue(0xffffffFF)
+              .moveTo("Water");
+
+    cp5.addSlider("Amount: Sharks")
+      .plugTo(parent, "numSharks")
+        .setRange(1, 8)
+          .setValue(3)
+            .setPosition(10, 190)
+              .setNumberOfTickMarks(10)
+                .setId(9)
+                  .moveTo("Water");
+
+    cp5.addSlider("Speed: Sharks")
+      .plugTo(parent, "speedSharks")
+        .setRange(1, 35)
+          .setValue(5)
+            .setNumberOfTickMarks(10)
+              .setPosition(10, 210)
+                .moveTo("Water");
+
 
     // Clouds
     cp5.addTextlabel("Settings: Clouds")

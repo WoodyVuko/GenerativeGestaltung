@@ -43,10 +43,12 @@ Bubble[] lavaBubbles;
 
 /************************* Global parameters for "Water" *******************************/
 /***************************************************************************************/
-int numWater, speedWater, detailWater;
+int numWater, speedWater, detailWater, speedSharks;
 Bubble[] water;
-int numFishes, speedFishes;
+int numFishes, speedFishes, numSharks;
 Fish[] fishContrainer;
+Fish[] sharkContrainer;
+Fish[] shadowContrainer;
 float xy = 1;
 boolean check = true;
 
@@ -105,13 +107,11 @@ int lod = 1;
 /************************* Global parameters for "Land" ****************************/
 /***************************************************************************************/
 float scale0, scale1, amp0, amp1, y_posi;
-Box lavaBox, seaBox, landBox, TIT;
+Box lavaBox, seaBox, landBox;
 
 Ellipsoid sun, moon, merkur, venus;
 
 float ti, br;
-
-Fish fish;
 
 void setup() { 
   size(600, 600, P3D);  
@@ -211,12 +211,20 @@ void setup() {
   landBox = BoxTexture(landBox, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxOben.jpg", "landBoxDown.jpg");
 
 
-  /******************* Constructor Lava Bubbles *****************************/
+  /******************* Constructor Fishes ***********************************/
   /**************************************************************************/
   fishContrainer = new Fish[numFishes];
   for (int i = 0; i < numFishes; i++) 
   {                              // -MESH/2 random(distance3, ditanceFishToLand)
-    fishContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-150))), random(-MESH_WIDTH), this);
+    fishContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-150))), random(-MESH_WIDTH), this, str(int(random(1, 11))) + "_fish.png", 1);
+  }
+
+  /******************* Constructor Sharks ***********************************/
+  /**************************************************************************/
+  sharkContrainer = new Fish[numSharks];
+  for (int i = 0; i < numSharks; i++) 
+  {                              // -MESH/2 random(distance3, ditanceFishToLand)
+    sharkContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-350))), -1190, this, str(int(random(1, 3))) + "_shark.png", 2);
   }
 
   // init time measurement
@@ -345,7 +353,7 @@ void draw() {
   }
 
   /********************************* Fish ***********************************/
-  /***********************************************************************NOT DONE*/
+  /*************************************************************************/
   for (int i = 0; i < fishContrainer.length; i++) 
   {    
     if (i < (fishContrainer.length / 2))
@@ -356,6 +364,21 @@ void draw() {
     {
       fishContrainer[i].update(MESH_WIDTH, 0, false, -1);
       fishContrainer[i].render(speedFishes);
+    }
+  }
+
+  /********************************* Sharks ********************************/
+  /*************************************************************************/
+  for (int i = 0; i < sharkContrainer.length; i++) 
+  {    
+    if (i < (sharkContrainer.length / 2))
+    {
+      sharkContrainer[i].update(0, MESH_WIDTH, true, 1);
+      sharkContrainer[i].render(speedFishes);
+    } else
+    {
+      sharkContrainer[i].update(MESH_WIDTH, 0, false, -1);
+      sharkContrainer[i].render(speedSharks);
     }
   }
 
@@ -428,8 +451,8 @@ void draw() {
   moon.rotateBy(0, radians(rotationMoon), 0);
   moon.moveTo(MESH_WIDTH/2 + MESH, -3900, -(MESH_WIDTH/2));
   moon.draw(); // draw earth and added shapes (moon)
+}
 
-}uuu
 int tm = 0;
 
 /************************ Randomfunction **********************************/
@@ -533,7 +556,7 @@ void controlEvent(ControlEvent theEvent) {
     fishContrainer = new Fish[numFishes];
     for (int i = 0; i < numFishes; i++) 
     {                              // -MESH/2 random(distance3, ditanceFishToLand)
-      fishContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, distanceLavaToSea), random(-MESH_WIDTH), this);
+      fishContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, distanceLavaToSea), random(-MESH_WIDTH), this, str(int(random(1, 11))) +  "_fish.png", 1);
     }
     break;
     case(3):
@@ -593,6 +616,13 @@ void controlEvent(ControlEvent theEvent) {
     break;
 
     case(9):
+    /******************* Constructor Sharks ***********************************/
+    /**************************************************************************/
+    sharkContrainer = new Fish[numSharks];
+    for (int i = 0; i < numSharks; i++) 
+    {                              // -MESH/2 random(distance3, ditanceFishToLand)
+      sharkContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-350))), random(-MESH_WIDTH), this, str(int(random(1, 3))) + "_shark.png", 2);
+    }
 
     break;
 
@@ -602,7 +632,6 @@ void controlEvent(ControlEvent theEvent) {
     break;
 
     case(11):
-
     break;
   }
 }

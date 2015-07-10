@@ -7,13 +7,22 @@ class Fish
   PApplet parent;
   Box TIT;
 
-  Fish(float x, float y, float z, PApplet pa, String fish)
+  Fish(float x, float y, float z, PApplet pa, String fish, int i)
   {
+    if(i == 1)
+    {
+       size = new PVector(random(15, 50), random(5, 16), 5);
+    }
+    else if(i == 2)
+    {
+       size = new PVector(random(120, 180), random(50, 75), 5);
+    }
     check = true;
     parent = pa;
-    size = new PVector(15, 5, 5);
     pos = new PVector(x, y, z);
     TIT = new Box(parent, size.x, size.y, size.z);
+        println(fish);
+
     TIT = BoxTexture(TIT, fish);
     TIT.moveTo(pos.x, pos.y, pos.z);
   }
@@ -80,7 +89,6 @@ class Fish
   void render(float speed)
   {       
     this.speed = speed;
-    println(pos.x, pos.y, pos.z);
     TIT.moveTo(width + pos.x, pos.y, pos.z);
     TIT.draw();
   }
