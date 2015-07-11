@@ -59,7 +59,7 @@ Walls Front, Level, Lava, Sand;
 /************************* Global parameters for "Shader" *******************************/
 /***************************************************************************************/
 PShader texShader;
-PImage texture, label;
+PImage texture;
 
 /************************* Global parameters for "Time" *******************************/
 /***************************************************************************************/
@@ -122,7 +122,6 @@ void setup() {
   cf = addControlFrame("controls", 400, 400); 
 
   // Texture-Shader Test
-  label = loadImage("smiley.jpg");
   texShader = loadShader("texfrag.glsl", "texvert.glsl");
 
   // load shader with fragment-program and vertex-program
@@ -216,7 +215,7 @@ void setup() {
   fishContrainer = new Fish[numFishes];
   for (int i = 0; i < numFishes; i++) 
   {                              // -MESH/2 random(distance3, ditanceFishToLand)
-    fishContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-150))), random(-MESH_WIDTH), this, str(int(random(1, 11))) + "_fish.png", 1);
+    fishContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-150))), random(-MESH_WIDTH), this, str(int(random(1, 11))) + "_fish.png", random(15, 50), random(5, 16), 5);
   }
 
   /******************* Constructor Sharks ***********************************/
@@ -224,7 +223,7 @@ void setup() {
   sharkContrainer = new Fish[numSharks];
   for (int i = 0; i < numSharks; i++) 
   {                              // -MESH/2 random(distance3, ditanceFishToLand)
-    sharkContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-350))), -1190, this, str(int(random(1, 3))) + "_shark.png", 2);
+    sharkContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-350))), -1190, this, "shark.png", 550, 120, 5);
   }
 
   // init time measurement
@@ -556,7 +555,7 @@ void controlEvent(ControlEvent theEvent) {
     fishContrainer = new Fish[numFishes];
     for (int i = 0; i < numFishes; i++) 
     {                              // -MESH/2 random(distance3, ditanceFishToLand)
-      fishContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, distanceLavaToSea), random(-MESH_WIDTH), this, str(int(random(1, 11))) +  "_fish.png", 1);
+      fishContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, distanceLavaToSea), random(-MESH_WIDTH), this, str(int(random(1, 11))) +  "_fish.png", random(15, 50), random(5, 16), 5);
     }
     break;
     case(3):
@@ -621,9 +620,8 @@ void controlEvent(ControlEvent theEvent) {
     sharkContrainer = new Fish[numSharks];
     for (int i = 0; i < numSharks; i++) 
     {                              // -MESH/2 random(distance3, ditanceFishToLand)
-      sharkContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-350))), random(-MESH_WIDTH), this, str(int(random(1, 3))) + "_shark.png", 2);
+      sharkContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-350))), -1190, this, "shark.png", 550, 120, 5);
     }
-
     break;
 
     case(10):

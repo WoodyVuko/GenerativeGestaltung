@@ -258,7 +258,7 @@ public class ControlFrame extends PApplet {
     cp5.addSlider("Amount: Fish")
       .plugTo(parent, "numFishes")
         .setRange(1, 250)
-          .setValue(25)
+          .setValue(50)
             .setPosition(10, 50)
               .setNumberOfTickMarks(10)
                 .setId(2)
@@ -314,16 +314,15 @@ public class ControlFrame extends PApplet {
     cp5.addSlider("Amount: Sharks")
       .plugTo(parent, "numSharks")
         .setRange(1, 8)
-          .setValue(3)
+          .setValue(2)
             .setPosition(10, 190)
-              .setNumberOfTickMarks(10)
                 .setId(9)
                   .moveTo("Water");
 
     cp5.addSlider("Speed: Sharks")
       .plugTo(parent, "speedSharks")
         .setRange(1, 35)
-          .setValue(5)
+          .setValue(8)
             .setNumberOfTickMarks(10)
               .setPosition(10, 210)
                 .moveTo("Water");
