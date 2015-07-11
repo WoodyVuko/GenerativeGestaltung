@@ -109,7 +109,7 @@ int lod = 1;
 float scale0, scale1, amp0, amp1, y_posi;
 Box lavaBox, seaBox, landBox;
 
-Ellipsoid sun, moon, merkur, venus;
+Planet sun, moon, merkur, venus;
 
 float ti, br;
 
@@ -192,13 +192,6 @@ void setup() {
   Sat1 = new SpaceObjects(random(400, MESH_WIDTH + MESH), -3500, -1200, loadImage("sat.png"), 5, 10);
   Sat2 = new SpaceObjects(random(400, MESH_WIDTH + MESH), -3200, -1200, loadImage("sat2.png"), 2, 5);
 
-  /************************ Constructor Planets *****************************/
-  /**************************************************************************/
-  sun = AddEllipsoid (20, 30, "sun.jpg", 490);
-  merkur = AddEllipsoid (20, 30, "merkur.jpg", 90);
-  venus = AddEllipsoid (20, 30, "venus.jpg", 290);
-  moon = AddEllipsoid (20, 30, "moon.jpg", 190);
-
   lastTime = millis() / 1000.0;
   Front = new Walls(1600, 6000, 40, color(23, 51, 112));
 
@@ -226,12 +219,18 @@ void setup() {
     sharkContrainer[i] = new Fish(random(MESH + 50, MESH_WIDTH - 350), random(distance0, (distanceLavaToSea + (-350))), -1190, this, "shark.png", 550, 120, 5);
   }
 
+  /************************ Constructor Planets *****************************/
+  /**************************************************************************/
+  sun = new Planet(20, 30, this, "sun.jpg", 490);
+  merkur = new Planet(20, 30, this, "merkur.jpg", 90);
+  venus = new Planet(20, 30, this, "venus.jpg", 290);
+  moon = new Planet(20, 30, this, "moon.jpg", 190);
+  
   // init time measurement
   lastTime = millis() / 1000.0;
 }
 //float distanceLavaToSea = -100;
 //float distance0 = -800;
-
 void draw() {   
   lod = 1 + frameCount/40;
   background(0, 0, 0);
@@ -435,21 +434,10 @@ void draw() {
   shader(displaceShader);
   shader(texShader);
 
-  sun.rotateBy(0, radians(-rotationSun), 0);
-  sun.moveTo(MESH_WIDTH/2 + MESH, -6000, -MESH_WIDTH);
-  sun.draw(); // draw earth and added shapes (moon)
-
-  venus.rotateBy(0, radians(+rotationVenus), 0);
-  venus.moveTo(MESH_WIDTH/2 + MESH, -4700, -(MESH_WIDTH/2));
-  venus.draw(); // draw earth and added shapes (moon)
-
-  merkur.rotateBy(0, radians(-rotationMerkur), 0);
-  merkur.moveTo(MESH_WIDTH/2 + MESH, -4250, -(MESH_WIDTH/2));
-  merkur.draw(); // draw earth and added shapes (moon)
-
-  moon.rotateBy(0, radians(rotationMoon), 0);
-  moon.moveTo(MESH_WIDTH/2 + MESH, -3900, -(MESH_WIDTH/2));
-  moon.draw(); // draw earth and added shapes (moon)
+  sun.render(0, radians(-rotationSun), 0, MESH_WIDTH/2 + MESH, -6000, -MESH_WIDTH);
+  venus.render(0, radians(+rotationVenus), 0, MESH_WIDTH/2 + MESH, -4700, -(MESH_WIDTH/2));
+  merkur.render(0, radians(-rotationMerkur), 0, MESH_WIDTH/2 + MESH, -4250, -(MESH_WIDTH/2));
+  moon.render(0, radians(rotationMoon), 0, MESH_WIDTH/2 + MESH, -3900, -(MESH_WIDTH/2));
 }
 
 int tm = 0;
@@ -634,14 +622,6 @@ void controlEvent(ControlEvent theEvent) {
   }
 }
 
-Ellipsoid AddEllipsoid (int slices, int segments, String textureFile, float radius) 
-{
-  Ellipsoid aShape = new Ellipsoid(this, slices, segments);
-  aShape.setTexture(textureFile);
-  aShape.drawMode(Shape3D.TEXTURE);
-  aShape.setRadius(radius);
-  return aShape;
-}
 
 /************** Funktion für Sprite als BG (Laggy) ****/
 /* Funktionierende Funktion für BG als Sprite! ********
