@@ -107,7 +107,7 @@ int lod = 1;
 /************************* Global parameters for "Land" ****************************/
 /***************************************************************************************/
 float scale0, scale1, amp0, amp1, y_posi;
-Box lavaBox, seaBox, landBox;
+Level lavaBox, seaBox, landBox;
 
 Planet sun, moon, merkur, venus;
 
@@ -195,12 +195,9 @@ void setup() {
   lastTime = millis() / 1000.0;
   Front = new Walls(1600, 6000, 40, color(23, 51, 112));
 
-  lavaBox = new Box(this, MESH_WIDTH, 140, -MESH_WIDTH);
-  lavaBox = BoxTexture(lavaBox, "lavaBoxVorne.jpg", "lavaBoxVorne.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
-  seaBox = new Box(this, MESH_WIDTH, 100, -MESH_WIDTH);
-  seaBox = BoxTexture(seaBox, "seaBoxVorne.jpg", "seaBoxVorne.jpg", "seaBox.jpg", "seaBox.jpg", "seaBoxOben.jpg", "seaBox.jpg");
-  landBox = new Box(this, MESH_WIDTH, 100, -MESH_WIDTH);
-  landBox = BoxTexture(landBox, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxOben.jpg", "landBoxDown.jpg");
+  lavaBox = new Level(this, MESH_WIDTH, 140, -MESH_WIDTH, "lavaBoxVorne.jpg", "lavaBoxVorne.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
+  seaBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "seaBoxVorne.jpg", "seaBoxVorne.jpg", "seaBox.jpg", "seaBox.jpg", "seaBoxOben.jpg", "seaBox.jpg");
+  landBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxOben.jpg", "landBoxDown.jpg");
 
 
   /******************* Constructor Fishes ***********************************/
@@ -225,7 +222,7 @@ void setup() {
   merkur = new Planet(20, 30, this, "merkur.jpg", 90);
   venus = new Planet(20, 30, this, "venus.jpg", 290);
   moon = new Planet(20, 30, this, "moon.jpg", 190);
-  
+
   // init time measurement
   lastTime = millis() / 1000.0;
 }
@@ -293,12 +290,9 @@ void draw() {
 
   /****************************** Boxes *************************************/
   /**************************************************************************/
-  lavaBox.moveTo(MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
-  seaBox.moveTo(MESH + (MESH_WIDTH/2), -247 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
-  landBox.moveTo(MESH + (MESH_WIDTH/2), -953.8 + (-1.85) + (7.5), -MESH/2 + 300 + (-MESH_WIDTH/2));
-  lavaBox.draw();  
-  seaBox.draw();
-  landBox.draw();
+  lavaBox.render(MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
+  seaBox.render(MESH + (MESH_WIDTH/2), -247 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
+  landBox.render(MESH + (MESH_WIDTH/2), -953.8 + (-1.85) + (7.5), -MESH/2 + 300 + (-MESH_WIDTH/2));
 
   /****************************** Clouds ************************************/
   /**************************************************************************/
@@ -402,11 +396,6 @@ void draw() {
   Sat2.update(MESH, MESH_WIDTH + MESH, false);
   Sat2.render(random(0.001, 0.01));
 
-  /************************** Planets ***************************************/
-  /**************************************************************************/
-  //Moon.renderMoon(rotationMoon);
-  //Sun.renderSun(rotationSun);
-
   /************************** Positioning Meshes ****************************/
   /**************************************************************************/
   pushMatrix();
@@ -434,6 +423,8 @@ void draw() {
   shader(displaceShader);
   shader(texShader);
 
+  /************************ Planets *****************************************/
+  /**************************************************************************/
   sun.render(0, radians(-rotationSun), 0, MESH_WIDTH/2 + MESH, -6000, -MESH_WIDTH);
   venus.render(0, radians(+rotationVenus), 0, MESH_WIDTH/2 + MESH, -4700, -(MESH_WIDTH/2));
   merkur.render(0, radians(-rotationMerkur), 0, MESH_WIDTH/2 + MESH, -4250, -(MESH_WIDTH/2));
@@ -513,19 +504,7 @@ void keyPressed() {
   }
 }
 
-Box BoxTexture(Box lavaBox, String vorne, String hinten, String links, String rechts, String oben, String unten )
-{
-  lavaBox.setTexture(hinten, lavaBox.FRONT); // Back
-  lavaBox.setTexture(vorne, lavaBox.BACK);  // Front
-  lavaBox.setTexture(rechts, lavaBox.LEFT);
-  lavaBox.setTexture(links, lavaBox.RIGHT);
-  lavaBox.setTexture(oben, lavaBox.TOP);  
-  lavaBox.setTexture(unten, lavaBox.BOTTOM);
-  //lavaBox.visible(true, lavaBox.BOTTOM);
-  lavaBox.drawMode(Shape3D.TEXTURE);
 
-  return lavaBox;
-}
 /************************** Control Window ********************************/
 /**************************************************************************/
 
@@ -593,12 +572,9 @@ void controlEvent(ControlEvent theEvent) {
     meshLand = new Mesh(color(255, 0, 0), color(0, 255, 0), N, loadImage("landBoxOben.jpg"));
     pLand = meshLand.createMesh2(amp0, amp1, scale0, scale1 );
 
-    lavaBox = new Box(this, MESH_WIDTH, 140, -MESH_WIDTH);
-    lavaBox = BoxTexture(lavaBox, "lavaBoxVorne.jpg", "lavaBoxVorne.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
-    seaBox = new Box(this, MESH_WIDTH, 130, -MESH_WIDTH);
-    seaBox = BoxTexture(seaBox, "seaBoxVorne.jpg", "seaBoxVorne.jpg", "seaBox.jpg", "seaBox.jpg", "seaBoxOben.jpg", "seaBox.jpg");
-    landBox = new Box(this, MESH_WIDTH, 100, -MESH_WIDTH);
-    landBox = BoxTexture(landBox, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxDown.jpg", "landBoxDown.jpg", "landBoxOben.jpg", "landBoxDown.jpg");
+    lavaBox = new Level(this, MESH_WIDTH, 140, -MESH_WIDTH, "lavaBoxVorne.jpg", "lavaBoxVorne.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
+    seaBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "seaBoxVorne.jpg", "seaBoxVorne.jpg", "seaBox.jpg", "seaBox.jpg", "seaBoxOben.jpg", "seaBox.jpg");
+    landBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxOben.jpg", "landBoxDown.jpg");
 
     break;
 
