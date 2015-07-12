@@ -141,28 +141,44 @@ public class ControlFrame extends PApplet {
 
     // Testing!!!!!!!!!   
 
-    cp5.addSlider("Breite")
-      .plugTo(parent, "br")
-        .setRange(-1800, 1800)
+    cp5.addSlider("eins")
+      .plugTo(parent, "eins")
+        .setRange(-600, 200)
           .setNumberOfTickMarks(100)
             .setValue(0)
               .setPosition(10, 50)
                 .moveTo("Test"); 
 
-    cp5.addSlider("TestTi")
-      .plugTo(parent, "ti")
-        .setRange(-1800, 1800)
+    cp5.addSlider("zwei")
+      .plugTo(parent, "zwei")
+        .setRange(-700, 700)
           .setNumberOfTickMarks(100)
-            .setValue(1200)
+            .setValue(0)
               .setPosition(10, 70)
                 .moveTo("Test"); 
 
-    cp5.addSlider("TestT")
-      .plugTo(parent, "t")
-        .setRange(-50, 50)
+    cp5.addSlider("drei")
+      .plugTo(parent, "drei")
+        .setRange(-9200, 0)
           .setNumberOfTickMarks(55)
             .setValue(0)
               .setPosition(10, 90)
+                .moveTo("Test"); 
+
+    cp5.addSlider("vier")
+      .plugTo(parent, "vier")
+        .setRange(-9200, 0)
+          .setNumberOfTickMarks(100)
+            .setValue(0)
+              .setPosition(10, 110)
+                .moveTo("Test"); 
+
+    cp5.addSlider("fuenf")
+      .plugTo(parent, "fuenf")
+        .setRange(-9200, 0)
+          .setNumberOfTickMarks(55)
+            .setValue(0)
+              .setPosition(10, 130)
                 .moveTo("Test"); 
 
 
@@ -316,8 +332,8 @@ public class ControlFrame extends PApplet {
         .setRange(1, 8)
           .setValue(2)
             .setPosition(10, 190)
-                .setId(9)
-                  .moveTo("Water");
+              .setId(9)
+                .moveTo("Water");
 
     cp5.addSlider("Speed: Sharks")
       .plugTo(parent, "speedSharks")
@@ -508,7 +524,7 @@ public class ControlFrame extends PApplet {
     if (key=='s') {
       cp5.saveProperties(("terrain.properties"));
     } else if (key=='l') {
-      cp5.loadProperties(("terrain.properties"));
+      cp5.loadProperties(("terrainDefault.properties"));
     }
   }
 

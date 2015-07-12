@@ -58,10 +58,10 @@ class Rock
   }
 
   void initSkin()
-  {
+  {textureMode(IMAGE);
     int d = 300;
     skin = createImage(d, d, RGB);
-    skin.loadPixels();
+    skin.loadPixels();      
     for(int i = 0; i < d; i++)
       for(int j = 0; j < d; j++)
         skin.pixels[i * d + j] = color(255 * noise(i / 5.0, j / 5.0));
@@ -69,14 +69,14 @@ class Rock
   }
 
   float[] getPoint(float u, float v)
-  {
+  {textureMode(IMAGE);
     PVector p = new PVector(cos(v) * cos(u), cos(v) * sin(u), sin(v));
     float r = radius * ((1 - rough) + rough * 2 * noise(p.x + p.y, p.y + p.z, p.z + p.x));
     return new float[] { p.x * r, p.y * r, p.z * r, u / TWO_PI, (v + HALF_PI) / PI };
   }
 
   void render(float speed)
-  {
+  {textureMode(IMAGE);
     this.speed += tmp;
     angle += speed;
     if(rebuild) { noLoop(); initPoints(); loop(); rebuild = false; }
@@ -91,7 +91,7 @@ class Rock
       float[][] pointSet = points[i];
       if(pointSet == null) continue;
       beginShape(TRIANGLE_STRIP);
-      texture(skin);
+       texture(skin);
       for(int j = 0; j < pointSet.length; j++)
       {
         float[] p = pointSet[j];

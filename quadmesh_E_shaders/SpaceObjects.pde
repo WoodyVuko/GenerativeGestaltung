@@ -102,6 +102,72 @@ class SpaceObjects
         }
       }
     }
+    
+         // -50 bis 1780 = Rechts nach Links
+    void updatePlane(float left, float right, boolean way)
+    { 
+       
+      if(way == true)
+      {
+        if(check == true)
+        {
+          if(pos.x > left)
+          {
+            pos.x -= speed;
+
+          //pos.y -= sin(20);
+          }
+          else
+          {
+            //float tmp = pos.x;
+            check = false;
+            //pos.x += speed;
+            pos.x = right;// + tmp; 
+          }
+        }
+        else
+        {
+          if(pos.x <= right)
+          {
+            pos.x += speed;
+          }
+          else
+          {
+            check = true;
+            direction = 1;
+          }
+        }
+      }
+      else
+      {
+        if(check == true)
+        {
+          if(pos.x <= left)
+          {
+            pos.x += speed;
+
+          //pos.y -= sin(20);
+          }
+          else
+          {
+            check = false;
+            pos.x = left;  
+          }
+        }
+        else
+        {
+          if(pos.x > right)
+          {
+            pos.x -= speed;
+          }
+          else
+          {
+            check = true;
+            direction = 1; 
+          }        
+        }
+      }
+    }
 
 void render(float speed)
 {
@@ -112,6 +178,7 @@ void render(float speed)
   rotate(angle); 
   beginShape();
   texture(img);
+  textureMode(IMAGE);
   vertex(-100, -100, 0, 0, 0);
   vertex(100, -100, 0, img.width, 0);
   vertex(100, 100, 0, img.width, img.height);

@@ -22,7 +22,7 @@ int clearColor;
 
 /************************* Global parameters for "Space" *******************************/
 /***************************************************************************************/
-SpaceObjects Sat1, Sat2, Moon, Sun;
+SpaceObjects Sat1, Sat2, Plane, Moon, Sun;
 Rock[] meteorContrainer;
 SpaceObjects[] Stars;
 int numMeteor = 15, numStars, speedStars, detailStars, radiusStars;
@@ -109,14 +109,18 @@ int lod = 1;
 float scale0, scale1, amp0, amp1, y_posi;
 Level lavaBox, seaBox, landBox;
 
+/************************* Global parameters for "Planet" ****************************/
+/***************************************************************************************/
 Planet sun, moon, merkur, venus;
 
-float ti, br;
+
+/************************************************* TESTING" ****************************/
+/***************************************************************************************/
+float eins, zwei, drei, vier, fuenf;
 
 void setup() { 
   size(600, 600, P3D);  
   frameRate(50); // 25
-
   // Control Window
   cp5 = new ControlP5(this);
   cf = addControlFrame("controls", 400, 400); 
@@ -175,7 +179,7 @@ void setup() {
   Stars = new SpaceObjects[numStars];
   for (int i = 0; i < numStars; i++) 
   {
-    Stars[i] = new SpaceObjects( random(MESH, MESH_WIDTH + MESH), random(-2900, 0)+ (-2400), -1200, color(255, 255, 255));
+    Stars[i] = new SpaceObjects( random(MESH, MESH_WIDTH + MESH), random(-5920, 0)+ (-2400), -1200, color(255, 255, 255));
   }
 
   /************************ Constructor Meteors *****************************/
@@ -186,19 +190,21 @@ void setup() {
     int tmp = int(dice(0, numMeteor));                       // -400
     meteorContrainer[i] = new Rock(random(400, MESH_WIDTH), random(-2900, 0)+ (-3500), random(-1200));
   }
-
   /************************ Constructor Sat's *****************************/
   /**************************************************************************/
-  Sat1 = new SpaceObjects(random(400, MESH_WIDTH + MESH), -3500, -1200, loadImage("sat.png"), 5, 10);
-  Sat2 = new SpaceObjects(random(400, MESH_WIDTH + MESH), -3200, -1200, loadImage("sat2.png"), 2, 5);
+  Sat1 = new SpaceObjects(random(400, MESH_WIDTH + MESH), -3500, -MESH_WIDTH + 2, loadImage("sat.png"), 5, 10);
+  Sat2 = new SpaceObjects(random(900, MESH_WIDTH + MESH), -3200, -MESH_WIDTH + 2, loadImage("sat2.png"), 2, 5);
+  Plane = new SpaceObjects(random(900, MESH_WIDTH + MESH), -2400, -1200, loadImage("plane.png"), 2, 5);
+
 
   lastTime = millis() / 1000.0;
   Front = new Walls(1600, 6000, 40, color(23, 51, 112));
 
+  /******************* Constructor Ebenen ***********************************/
+  /**************************************************************************/
   lavaBox = new Level(this, MESH_WIDTH, 140, -MESH_WIDTH, "lavaBoxVorne.jpg", "lavaBoxVorne.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
   seaBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "seaBoxVorne.jpg", "seaBoxVorne.jpg", "seaBox.jpg", "seaBox.jpg", "seaBoxOben.jpg", "seaBox.jpg");
-  landBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxOben.jpg", "landBoxDown.jpg");
-
+  landBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxDown.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg");
 
   /******************* Constructor Fishes ***********************************/
   /**************************************************************************/
@@ -291,7 +297,7 @@ void draw() {
   /****************************** Boxes *************************************/
   /**************************************************************************/
   lavaBox.render(MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
-  seaBox.render(MESH + (MESH_WIDTH/2), -247 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
+  seaBox.render(MESH + (MESH_WIDTH/2), -267 + (MESH_WIDTH/ 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
   landBox.render(MESH + (MESH_WIDTH/2), -953.8 + (-1.85) + (7.5), -MESH/2 + 300 + (-MESH_WIDTH/2));
 
   /****************************** Clouds ************************************/
@@ -340,7 +346,7 @@ void draw() {
   /**************************************************************************/
   for (int i = 0; i < numStars; i++) 
   {  
-    Stars[i].update(MESH, MESH_WIDTH + MESH, true);
+    Stars[i].updatePlane(MESH, MESH_WIDTH + MESH, true);
     Stars[i].renderStars(speedStars, detailStars, radiusStars);
   }
 
@@ -393,9 +399,10 @@ void draw() {
   /**************************************************************************/
   Sat1.update(MESH, MESH_WIDTH + MESH, true);
   Sat1.render(random(0.005, 0.05));
-  Sat2.update(MESH, MESH_WIDTH + MESH, false);
+  Sat2.update(MESH, MESH_WIDTH + MESH, true);
   Sat2.render(random(0.001, 0.01));
-
+  Plane.updatePlane(MESH, MESH_WIDTH + MESH, true);
+  Plane.render(0);
   /************************** Positioning Meshes ****************************/
   /**************************************************************************/
   pushMatrix();
@@ -404,7 +411,7 @@ void draw() {
   popMatrix();
 
   pushMatrix();
-  meshIsland.doPosition(MESH, height/2 - 700, 0);  
+  meshIsland.doPosition(MESH, height/2 - 766 + eins, 0);  
   shape(pIsland);
   popMatrix();
 
@@ -425,13 +432,12 @@ void draw() {
 
   /************************ Planets *****************************************/
   /**************************************************************************/
-  sun.render(0, radians(-rotationSun), 0, MESH_WIDTH/2 + MESH, -6000, -MESH_WIDTH);
-  venus.render(0, radians(+rotationVenus), 0, MESH_WIDTH/2 + MESH, -4700, -(MESH_WIDTH/2));
-  merkur.render(0, radians(-rotationMerkur), 0, MESH_WIDTH/2 + MESH, -4250, -(MESH_WIDTH/2));
-  moon.render(0, radians(rotationMoon), 0, MESH_WIDTH/2 + MESH, -3900, -(MESH_WIDTH/2));
+  sun.render(0, radians(-rotationSun), 0, MESH_WIDTH/2 + MESH, -6320, -MESH_WIDTH/2);
+  venus.render(0, radians(+rotationVenus), 0, MESH_WIDTH/2 + MESH, -4832, -MESH_WIDTH/2);
+  merkur.render(0, radians(-rotationMerkur), 0, MESH_WIDTH/2 + MESH, -3912, -MESH_WIDTH/2);
+  moon.render(0, radians(rotationMoon), 0, MESH_WIDTH/2 + MESH, -2880, -MESH_WIDTH/4);
 }
 
-int tm = 0;
 
 /************************ Randomfunction **********************************/
 /**************************************************************************/
@@ -468,28 +474,28 @@ void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
       reinRaus += 1 + Forward_and_Back;        
-      /*if(reinRaus >= 1500)
+      if(reinRaus >= 1500)
        {
        reinRaus = 1499;
-       }*/
+       }
     } else if (keyCode == DOWN) {
       reinRaus -= 1 + Forward_and_Back;
-      /*if(reinRaus <= 500)
+      if(reinRaus <= 500)
        {
        reinRaus = 501;
-       }*/
+       }
     } else if (keyCode == RIGHT) {
       linksRechts -= 1 + Left_and_Right;
-      /*if(linksRechts <= -949)
+      if(linksRechts <= -949)
        {
        linksRechts = -950;
-       }*/
+       }
     } else if (keyCode == LEFT) {
       linksRechts += 1 + Left_and_Right;
-      /* if(linksRechts >= 100)
+       if(linksRechts >= 100)
        {
        linksRechts = 100;
-       }*/
+       }
     } else if (keyCode == ALT) {
       hochRunter -= 1 + Up_and_Down;
       if (hochRunter <= 300)
@@ -574,8 +580,13 @@ void controlEvent(ControlEvent theEvent) {
 
     lavaBox = new Level(this, MESH_WIDTH, 140, -MESH_WIDTH, "lavaBoxVorne.jpg", "lavaBoxVorne.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
     seaBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "seaBoxVorne.jpg", "seaBoxVorne.jpg", "seaBox.jpg", "seaBox.jpg", "seaBoxOben.jpg", "seaBox.jpg");
-    landBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxOben.jpg", "landBoxDown.jpg");
-
+    landBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxDown.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg" );  
+    
+    Stars = new SpaceObjects[numStars];
+    for (int i = 0; i < numStars; i++) 
+    {
+      Stars[i] = new SpaceObjects( random(MESH_WIDTH - 400), random(-2900, 0)+ (-2400), -1300, color(255, 255, 255));
+    }
     break;
 
     case(9):
