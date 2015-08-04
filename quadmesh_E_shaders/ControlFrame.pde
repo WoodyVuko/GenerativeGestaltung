@@ -24,11 +24,6 @@ public class ControlFrame extends PApplet {
     frameRate(25);
     cp5 = new ControlP5(this);
 
-    cp5.addTab("Test")
-      .setColorBackground(color(66, 160, 100))
-        .setColorLabel(color(255))
-          .setColorActive(color(255, 128, 0));
-
     // create tabs to arrange sliders, default is alwasy there, add another tab for sun related controls and one for terrain
     cp5.addTab("Mesh")
       .setColorBackground(color(0, 160, 100))
@@ -41,32 +36,27 @@ public class ControlFrame extends PApplet {
           .setColorActive(color(255, 128, 0));
 
     cp5.addTab("Water")
-      .setColorBackground(color(160, 0, 70))
+      .setColorBackground(color(64, 50, 217))
         .setColorLabel(color(255))
           .setColorActive(color(255, 128, 0));
 
     cp5.addTab("Clouds")
-      .setColorBackground(color(160, 0, 70))
+      .setColorBackground(color(50, 189, 217))
         .setColorLabel(color(255))
           .setColorActive(color(255, 128, 0));
 
     cp5.addTab("Space")
-      .setColorBackground(color(160, 0, 70))
+      .setColorBackground(color(20, 20, 20))
         .setColorLabel(color(255))
           .setColorActive(color(255, 128, 0));
 
     cp5.addTab("Planet")
-      .setColorBackground(color(160, 0, 70))
+      .setColorBackground(color(217, 50, 175))
         .setColorLabel(color(255))
           .setColorActive(color(255, 128, 0));
 
     cp5.addTab("Land")
-      .setColorBackground(color(160, 0, 70))
-        .setColorLabel(color(255))
-          .setColorActive(color(255, 128, 0));
-
-    cp5.addTab("Water")
-      .setColorBackground(color(0, 160, 100))
+      .setColorBackground(color(194, 217, 50))
         .setColorLabel(color(255))
           .setColorActive(color(255, 128, 0));
 
@@ -139,97 +129,54 @@ public class ControlFrame extends PApplet {
                 .setPosition(10, 50)
                   .moveTo("Mesh"); 
 
-    // Testing!!!!!!!!!   
-
-    cp5.addSlider("eins")
-      .plugTo(parent, "eins")
-        .setRange(-600, 200)
-          .setNumberOfTickMarks(100)
-            .setValue(0)
-              .setPosition(10, 50)
-                .moveTo("Test"); 
-
-    cp5.addSlider("zwei")
-      .plugTo(parent, "zwei")
-        .setRange(-700, 700)
-          .setNumberOfTickMarks(100)
-            .setValue(0)
-              .setPosition(10, 70)
-                .moveTo("Test"); 
-
-    cp5.addSlider("drei")
-      .plugTo(parent, "drei")
-        .setRange(-9200, 0)
-          .setNumberOfTickMarks(55)
-            .setValue(0)
-              .setPosition(10, 90)
-                .moveTo("Test"); 
-
-    cp5.addSlider("vier")
-      .plugTo(parent, "vier")
-        .setRange(-9200, 0)
-          .setNumberOfTickMarks(100)
-            .setValue(0)
-              .setPosition(10, 110)
-                .moveTo("Test"); 
-
-    cp5.addSlider("fuenf")
-      .plugTo(parent, "fuenf")
-        .setRange(-9200, 0)
-          .setNumberOfTickMarks(55)
-            .setValue(0)
-              .setPosition(10, 130)
-                .moveTo("Test"); 
-
-
-
-    // Testing!!!!!!!!!   
-
+    // Noise Island
+    cp5.addTextlabel("Settings: Island")
+      .plugTo(parent, "descriptionIsland")
+        .setText("Settings: Island")
+          .setPosition(10, 30)
+            .setColorValue(0xffffffFF)
+              .moveTo("Land");
 
     cp5.addSlider("amp0")
       .plugTo(parent, "amp0")
         .setRange(100, 120)
-          //.setNumberOfTickMarks(15)
           .setValue(111.11) // -1000
             .setId(10)
-              .setPosition(10, 70)
+              .setPosition(10, 50)
                 .moveTo("Land"); 
 
     cp5.addSlider("amp1")
       .plugTo(parent, "amp1")
         .setRange(-10000, 1000)
-          //.setNumberOfTickMarks(15)
           .setValue(-1111)   //  -3200 // -1666
             .setId(10)
-              .setPosition(10, 90)
+              .setPosition(10, 70)
                 .moveTo("Land"); 
 
     cp5.addSlider("scale0")
       .plugTo(parent, "scale0")
         .setRange(-0.000, 0.100)
-          //.setNumberOfTickMarks(15)
           .setValue(0.003)   //  0.003
               .setId(10)
-              .setPosition(10, 110)
+              .setPosition(10, 90)
                 .moveTo("Land"); 
 
     cp5.addSlider("scale1")
       .plugTo(parent, "scale1")
         .setRange(0.001, 0.100)
-          //.setNumberOfTickMarks(15)
           .setValue(0.009)   //  0.009
               .setId(10)
-              .setPosition(10, 130)
+              .setPosition(10, 110)
                 .moveTo("Land"); 
 
     cp5.addSlider("y_posi")
       .plugTo(parent, "y_posi")
         .setRange(-160, -190 )
-          //.setNumberOfTickMarks(15)
           .setValue(-167)   //  0.009
             .setId(11)
-              .setPosition(10, 150)
+              .setPosition(10, 130)
                 .moveTo("Land"); 
+
     // Lava Bubbles
     cp5.addTextlabel("Settings: Lava")
       .plugTo(parent, "descriptionLava")
@@ -291,7 +238,7 @@ public class ControlFrame extends PApplet {
     cp5.addTextlabel("Water: Air Bubble")
       .plugTo(parent, "descriptionWaterBubbles")
         .setText("Settings: Bubbles")
-          .setPosition(10, 90)
+          .setPosition(10, 100)
             .setColorValue(0xffffffFF)
               .moveTo("Water");
 
@@ -323,7 +270,7 @@ public class ControlFrame extends PApplet {
     cp5.addTextlabel("Settings: Sharks")
       .plugTo(parent, "descriptionSharks")
         .setText("Settings: Sharks")
-          .setPosition(10, 170)
+          .setPosition(10, 180)
             .setColorValue(0xffffffFF)
               .moveTo("Water");
 
@@ -332,8 +279,9 @@ public class ControlFrame extends PApplet {
         .setRange(1, 8)
           .setValue(2)
             .setPosition(10, 190)
-              .setId(9)
-                .moveTo("Water");
+              .setNumberOfTickMarks(10)
+                .setId(9)
+                  .moveTo("Water");
 
     cp5.addSlider("Speed: Sharks")
       .plugTo(parent, "speedSharks")
@@ -416,7 +364,7 @@ public class ControlFrame extends PApplet {
     cp5.addTextlabel("Settings: Stars")
       .plugTo(parent, "descriptionStars")
         .setText("Settings: Stars")
-          .setPosition(10, 130)
+          .setPosition(10, 140)
             .setColorValue(0xffffffFF)
               .moveTo("Space");     
 
@@ -456,7 +404,7 @@ public class ControlFrame extends PApplet {
     cp5.addTextlabel("Settings: Moon")
       .plugTo(parent, "descriptionMoon")
         .setText("Settings: Moon")
-          .setPosition(10, 30)
+          .setPosition(10, 40)
             .setColorValue(0xffffffFF)
               .moveTo("Planet");     
 
@@ -471,7 +419,7 @@ public class ControlFrame extends PApplet {
     cp5.addTextlabel("Settings: Merkur")
       .plugTo(parent, "descriptionMerkur")
         .setText("Settings: Merkur")
-          .setPosition(10, 70)
+          .setPosition(10, 80)
             .setColorValue(0xffffffFF)
               .moveTo("Planet");     
 
@@ -486,7 +434,7 @@ public class ControlFrame extends PApplet {
     cp5.addTextlabel("Settings: Venus")
       .plugTo(parent, "descriptionVenus")
         .setText("Settings: Venus")
-          .setPosition(10, 110)
+          .setPosition(10, 120)
             .setColorValue(0xffffffFF)
               .moveTo("Planet");     
 
@@ -501,7 +449,7 @@ public class ControlFrame extends PApplet {
     cp5.addTextlabel("Settings: Sun")
       .plugTo(parent, "descriptionSun")
         .setText("Settings: Sun")
-          .setPosition(10, 150)
+          .setPosition(10, 160)
             .setColorValue(0xffffffFF)
               .moveTo("Planet");     
 

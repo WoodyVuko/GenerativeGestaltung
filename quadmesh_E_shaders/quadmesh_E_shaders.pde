@@ -147,7 +147,7 @@ void setup() {
 
   /******************* Center to Mesh ***************************************/
   /**************************************************************************/
-  translate (linksRechts, hochRunter, reinRaus);
+  translate (linksRechts - 300, hochRunter, reinRaus - 800);
 
 
   /************************** Constructor Cloud *****************************/
@@ -204,7 +204,7 @@ void setup() {
   /**************************************************************************/
   lavaBox = new Level(this, MESH_WIDTH, 140, -MESH_WIDTH, "lavaBoxVorne.jpg", "lavaBoxVorne.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg", "lavaBox.jpg");
   seaBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "seaBoxVorne.jpg", "seaBoxVorne.jpg", "seaBox.jpg", "seaBox.jpg", "seaBoxOben.jpg", "seaBox.jpg");
-  landBox = new Level(this, MESH_WIDTH, 100, -MESH_WIDTH, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxDown.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg");
+  landBox = new Level(this, MESH_WIDTH, 20, -MESH_WIDTH, "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg", "landBoxDown.jpg", "landBoxVorne.jpg", "landBoxVorne.jpg");
 
   /******************* Constructor Fishes ***********************************/
   /**************************************************************************/
@@ -262,7 +262,7 @@ void draw() {
 
   /************************** Camera ***************************************/
   /**************************************************************************/
-  translate (linksRechts, hochRunter, reinRaus);
+  translate (linksRechts - 300, hochRunter, reinRaus);
 
   /************************** Noise  Water **********************************/
   /**************************************************************************/
@@ -298,7 +298,7 @@ void draw() {
   /**************************************************************************/
   lavaBox.render(MESH + (MESH_WIDTH/2), 280 + (MESH_WIDTH / 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
   seaBox.render(MESH + (MESH_WIDTH/2), -267 + (MESH_WIDTH/ 60), -MESH/2 + 300 + (-MESH_WIDTH/2));
-  landBox.render(MESH + (MESH_WIDTH/2), -953.8 + (-1.85) + (7.5), -MESH/2 + 300 + (-MESH_WIDTH/2));
+  landBox.render(MESH + (MESH_WIDTH/2), -6953.8 + (-1.85) + (7.5), -MESH/2 + 300 + (-MESH_WIDTH/2));
 
   /****************************** Clouds ************************************/
   /**************************************************************************/
@@ -436,6 +436,10 @@ void draw() {
   venus.render(0, radians(+rotationVenus), 0, MESH_WIDTH/2 + MESH, -4832, -MESH_WIDTH/2);
   merkur.render(0, radians(-rotationMerkur), 0, MESH_WIDTH/2 + MESH, -3912, -MESH_WIDTH/2);
   moon.render(0, radians(rotationMoon), 0, MESH_WIDTH/2 + MESH, -2880, -MESH_WIDTH/4);
+  
+  println(linksRechts);
+  println(hochRunter);
+  println(reinRaus);
 }
 
 
@@ -474,36 +478,45 @@ void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
       reinRaus += 1 + Forward_and_Back;        
-      if(reinRaus >= 1500)
+     if(reinRaus >= 1510)
        {
-       reinRaus = 1499;
+       reinRaus = 1509;
        }
+       
     } else if (keyCode == DOWN) {
       reinRaus -= 1 + Forward_and_Back;
-      if(reinRaus <= 500)
+     if(reinRaus <= 151)
        {
-       reinRaus = 501;
+       reinRaus = 150;
        }
+      
     } else if (keyCode == RIGHT) {
       linksRechts -= 1 + Left_and_Right;
-      if(linksRechts <= -949)
+      if(linksRechts <= -880)
        {
-       linksRechts = -950;
+       linksRechts = -879;
        }
+      
     } else if (keyCode == LEFT) {
       linksRechts += 1 + Left_and_Right;
-       if(linksRechts >= 100)
+       if(linksRechts >= -320)
        {
-       linksRechts = 100;
+         linksRechts = -319;
        }
+       
     } else if (keyCode == ALT) {
       hochRunter -= 1 + Up_and_Down;
-      if (hochRunter <= 300)
+      if (hochRunter <= 149)
       {
-        hochRunter = 301;
+        hochRunter = 148;
       }
+      
     } else if (keyCode == SHIFT) {
       hochRunter += 1 + Up_and_Down;
+      if(hochRunter >= 7095)
+       {
+         hochRunter = 7094;
+       }
     }
   } else {
     background(0, 0, 255);
@@ -609,17 +622,3 @@ void controlEvent(ControlEvent theEvent) {
   }
 }
 
-
-/************** Funktion für Sprite als BG (Laggy) ****/
-/* Funktionierende Funktion für BG als Sprite! ********
-/* Einfach render für Hintrgrundwand ersetzen.. ******
- 
- PVector Mache Wasser()
- {
- PImage fish = loadImage("water.jpg");
- pushMatrix();
- translate(x,y,z);
- image(fish,0,0,mesh,8000);
- popMatrix();
- }
- */
